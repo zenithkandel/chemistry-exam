@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chemistry Exam Prep</title>
+    <style>
+      /* UI DESIGN INSTRUCTIONS:
+           - Soft neutral palette (off-white/beige background)
+           - Dark gray/black text
+           - Single muted accent color (warm orange/brown)
+           - Elegant serif headlines + clean sans-serif body text
+           - Minimalist, flat design (almost no shadows)
+           - Subtle borders/dividers
+           - Spacious, premium, airy layout
+        */
+      :root {
+        --bg-color: #fdfbf7;
+        --text-color: #2c2a29;
+        --accent-color: #c98a6c;
+        --secondary-bg: #f5f2eb;
+        --border-color: #e8e4db;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+          sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+      }
+
+      header {
+        padding: 4rem 2rem 2rem;
+        text-align: center;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 4rem;
+      }
+
+      h1 {
+        font-family: "Georgia", "Times New Roman", serif;
+        font-size: 2.5rem;
+        font-weight: 400;
+        margin: 0 0 1rem 0;
+        color: var(--text-color);
+      }
+
+      .subtitle {
+        color: #666;
+        font-size: 1.1rem;
+        font-weight: 300;
+        letter-spacing: 0.05em;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 2rem 5rem;
+      }
+
+      .filters {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 3rem;
+        flex-wrap: wrap;
+      }
+
+      .filter-btn {
+        background: transparent;
+        border: 1px solid var(--border-color);
+        color: var(--text-color);
+        padding: 0.5rem 1.2rem;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+      }
+
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: var(--text-color);
+        color: var(--bg-color);
+        border-color: var(--text-color);
+      }
+
+      .question-card {
+        background: var(--bg-color);
+        border: 1px solid var(--border-color);
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        border-radius: 4px;
+        position: relative;
+      }
+
+      .meta-info {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        color: #888;
+        margin-bottom: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .type-badge {
+        color: var(--accent-color);
+        font-weight: 600;
+      }
+
+      .question-text {
+        font-family: "Georgia", "Times New Roman", serif;
+        font-size: 1.4rem;
+        margin: 0 0 2rem 0;
+        line-height: 1.5;
+      }
+
+      .options {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 2rem 0;
+      }
+
+      .option {
+        padding: 1rem 1.5rem;
+        border: 1px solid var(--border-color);
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        display: flex;
+        align-items: center;
+      }
+
+      .option:hover {
+        background: var(--secondary-bg);
+      }
+
+      .option.selected {
+        background: var(--secondary-bg);
+        border-color: var(--accent-color);
+      }
+
+      .option.correct {
+        background: #e8f4e5;
+        border-color: #8ebd81;
+      }
+
+      .option.incorrect {
+        background: #fdf3f2;
+        border-color: #e6a5a0;
+      }
+
+      .option-letter {
+        font-weight: bold;
+        margin-right: 1rem;
+        color: #888;
+      }
+
+      .reveal-btn {
+        background: transparent;
+        border: 1px solid var(--accent-color);
+        color: var(--accent-color);
+        padding: 0.8rem 2rem;
+        cursor: pointer;
+        font-size: 0.95rem;
+        letter-spacing: 0.05em;
+        transition: all 0.2s ease;
+      }
+
+      .reveal-btn:hover {
+        background: var(--accent-color);
+        color: #fff;
+      }
+
+      .answer-section {
+        display: none;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px dashed var(--border-color);
+        animation: fadeIn 0.3s ease;
+      }
+
+      .answer-section.visible {
+        display: block;
+      }
+
+      .answer-label {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #888;
+        margin-bottom: 0.5rem;
+      }
+
+      .correct-answer {
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .explanation {
+        background: var(--secondary-bg);
+        padding: 1.5rem;
+        border-left: 3px solid var(--accent-color);
+        font-size: 0.95rem;
+        color: #444;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 4rem;
+        color: #888;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Chemistry Preparation Database</h1>
+      <div class="subtitle">COMPREHENSIVE EXAM COLLECTION</div>
+    </header>
+
+    <div class="container">
+      <div class="filters" id="filter-container">
+        <button class="filter-btn active" data-type="all">All Questions</button>
+        <button class="filter-btn" data-type="MCQ">Multiple Choice</button>
+        <button class="filter-btn" data-type="Short Answer Questions">
+          Short Answer
+        </button>
+        <button class="filter-btn" data-type="Long Answer Questions">
+          Long Answer
+        </button>
+        <button class="filter-btn" data-type="Numerical Problems">
+          Numerical
+        </button>
+        <button class="filter-btn" data-type="Chemical Reactions / Equations">
+          Reactions
+        </button>
+      </div>
+
+      <div id="questions-container">
+        <!-- Questions injected via JS -->
+      </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const container = document.getElementById("questions-container");
+        const filterContainer = document.getElementById("filter-container");
+        let currentFilter = "all";
+
+        // Check if data is loaded
+        if (typeof quizData === "undefined" || !Array.isArray(quizData)) {
+          container.innerHTML =
+            '<div class="empty-state">Unable to load question database. Please ensure data.js is present and correctly formatted.</div>';
+          console.error(
+            "quizData is not defined or not an array. Check data.js formatting.",
+          );
+          return;
+        }
+
+        function renderQuestions() {
+          container.innerHTML = "";
+
+          const filteredData =
+            currentFilter === "all"
+              ? quizData
+              : quizData.filter(
+                  (q) =>
+                    q.type === currentFilter || q.type.includes(currentFilter),
+                );
+
+          if (filteredData.length === 0) {
+            container.innerHTML =
+              '<div class="empty-state">No questions found for this category.</div>';
+            return;
+          }
+
+          filteredData.forEach((q, index) => {
+            const card = document.createElement("div");
+            card.className = "question-card";
+
+            let optionsHtml = "";
+            if (q.type === "MCQ" && q.options && q.options.length > 0) {
+              optionsHtml = '<ul class="options">';
+              const labels = ["A", "B", "C", "D", "E"];
+              q.options.forEach((opt, i) => {
+                optionsHtml += `
+                                <li class="option" data-value="${opt}">
+                                    <span class="option-letter">${labels[i] || "-"}</span> 
+                                    ${opt}
+                                </li>
+                            `;
+              });
+              optionsHtml += "</ul>";
+            }
+
+            // Format topic safely
+            const topicDisplay = q.topic ? q.topic : "General Chemistry";
+
+            card.innerHTML = `
+                        <div class="meta-info">
+                            <span class="type-badge">${q.type}</span>
+                            <span class="topic">${topicDisplay}</span>
+                        </div>
+                        <h2 class="question-text">${q.question}</h2>
+                        ${optionsHtml}
+                        <button class="reveal-btn">Show Answer</button>
+                        
+                        <div class="answer-section">
+                            <div class="answer-label">Correct Answer</div>
+                            <div class="correct-answer">${q.answer}</div>
+                            
+                            <div class="answer-label">Explanation</div>
+                            <div class="explanation">${q.explanation || "No detailed explanation provided."}</div>
+                        </div>
+                    `;
+
+            container.appendChild(card);
+
+            // Add interaction logic
+            const revealBtn = card.querySelector(".reveal-btn");
+            const answerSection = card.querySelector(".answer-section");
+            const options = card.querySelectorAll(".option");
+
+            revealBtn.addEventListener("click", () => {
+              const isVisible = answerSection.classList.contains("visible");
+              if (isVisible) {
+                answerSection.classList.remove("visible");
+                revealBtn.textContent = "Show Answer";
+              } else {
+                answerSection.classList.add("visible");
+                revealBtn.textContent = "Hide Answer";
+
+                // Highlight correct answer if MCQ
+                if (q.type === "MCQ" && options.length > 0) {
+                  options.forEach((opt) => {
+                    if (
+                      opt.dataset.value === q.answer ||
+                      opt.textContent.includes(q.answer)
+                    ) {
+                      opt.classList.add("correct");
+                    }
+                  });
+                }
+              }
+            });
+
+            // Interactive options
+            options.forEach((opt) => {
+              opt.addEventListener("click", () => {
+                // Remove selected from all
+                options.forEach((o) => o.classList.remove("selected"));
+                opt.classList.add("selected");
+              });
+            });
+          });
+        }
+
+        // Filter logic
+        filterContainer.addEventListener("click", (e) => {
+          if (e.target.classList.contains("filter-btn")) {
+            // Update active state
+            document
+              .querySelectorAll(".filter-btn")
+              .forEach((btn) => btn.classList.remove("active"));
+            e.target.classList.add("active");
+
+            currentFilter = e.target.dataset.type;
+            renderQuestions();
+          }
+        });
+
+        // Initial render
+        renderQuestions();
+      });
+    </script>
+  </body>
+</html>
