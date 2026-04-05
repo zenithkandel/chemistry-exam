@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+import codecs
+
+html_content = '''<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -107,17 +109,18 @@
                     const card = document.createElement('div'); card.className = 'card';
                     let optHtml = '';
                     if (q.type === 'mcq' && Array.isArray(q.options)) {
-                        optHtml = '<ul class="options">' + q.options.map(o => \<li class="option" data-id=""><span class="opt-id">\.</span><span class="opt-text">\</span></li>\).join('') + '</ul>';
+                        optHtml = '<ul class="options">' + q.options.map(o => \<li class="option" data-id="\"><span class="opt-id">\.</span><span class="opt-text">\</span></li>\).join('') + '</ul>';
                     }
 
                     let ans = q.type === 'mcq' ? (q.correctAnswer || '') : (q.answer || q.correctAnswer || 'No answer provided.');
                     if (q.type === 'mcq' && q.options && q.correctAnswer) {
                         const hit = q.options.find(o => o.id === q.correctAnswer);
-                        if (hit) ans = \. \;
+                        if (hit) ans = \\. \\;
                     }
 
                     const expHtml = q.explanation ? \<div class="answer-badge">Explanation</div><div class="explanation">\</div>\ : '';
-                    card.innerHTML =                         <div class="card-meta"><span class="card-type">\</span><span>\</span></div>
+                    card.innerHTML = \
+                        <div class="card-meta"><span class="card-type">\</span><span>\</span></div>
                         <h2 class="card-question">\</h2>
                         \<button class="reveal-btn">Show Answer</button>
                         <div class="answer-section"><div class="answer-badge">Correct Answer</div><div class="answer-content">\</div>\</div>\;
@@ -152,4 +155,7 @@
         });
     </script>
 </body>
-</html>
+</html>'''
+
+with codecs.open(r'c:\xampp\htdocs\codes\chemistry-exam\index.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
