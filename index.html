@@ -1,140 +1,340 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chemistry Exam Preparation</title>
     <style>
-        :root {
-            --bg-base: #FAF9F6;
-            --surface-color: #FFFFFF;
-            --border-color: #ECEAE1;
-            --text-main: #2A2825;
-            --text-muted: #6B685F;
-            --accent-warm: #C98A6C;
-            --mcq-hover: #F8F7F3;
-            --correct-bg: #F1F8EE;
-            --correct-border: #99C58F;
-            --incorrect-bg: #FDF4F3;
-            --incorrect-border: #E2A09B;
-        }
+      :root {
+        --bg-base: #faf9f6;
+        --surface-color: #ffffff;
+        --border-color: #eceae1;
+        --text-main: #2a2825;
+        --text-muted: #6b685f;
+        --accent-warm: #c98a6c;
+        --mcq-hover: #f8f7f3;
+        --correct-bg: #f1f8ee;
+        --correct-border: #99c58f;
+        --incorrect-bg: #fdf4f3;
+        --incorrect-border: #e2a09b;
+      }
 
-        body { background-color: var(--bg-base); color: var(--text-main); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; line-height: 1.6; }
-        header { text-align: center; padding: 4rem 2rem; border-bottom: 1px solid var(--border-color); background: var(--surface-color); }
-        h1 { font-family: Georgia, serif; font-size: 2.2rem; font-weight: normal; margin-bottom: 0.5rem; }
-        .subtitle { color: var(--text-muted); font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; }
-        .container { max-width: 800px; margin: 0 auto; padding: 3rem 1.5rem; }
-        .filters { display: flex; gap: 0.75rem; margin-bottom: 2.5rem; justify-content: center; flex-wrap: wrap; }
-        .filter-btn { border: 1px solid var(--border-color); background: var(--surface-color); padding: 0.5rem 1.25rem; border-radius: 2rem; cursor: pointer; color: var(--text-muted); transition: 0.2s; font-size: 0.9rem; }
-        .filter-btn.active { background: var(--text-main); color: #fff; border-color: var(--text-main); }
-        .filter-btn:hover:not(.active) { border-color: var(--accent-warm); color: var(--accent-warm); }
-        .card { background: var(--surface-color); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
-        .card-meta { display: flex; justify-content: space-between; font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem; }
-        .card-type { color: var(--accent-warm); font-weight: 600; }
-        .card-question { font-family: Georgia, serif; font-size: 1.3rem; margin-bottom: 1.5rem; line-height: 1.5; white-space: pre-wrap; }
-        .options { list-style: none; padding: 0; margin-bottom: 1.5rem; }
-        .option { display: flex; padding: 1rem; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 0.5rem; cursor: pointer; }
-        .option:hover { background: var(--mcq-hover); }
-        .option.selected { background: var(--mcq-hover); border-color: var(--accent-warm); }
-        .option.correct { background: var(--correct-bg); border-color: var(--correct-border); color: #2B542C; }
-        .option.incorrect { background: var(--incorrect-bg); border-color: var(--incorrect-border); color: #7A2E28; }
-        .opt-id { font-weight: 600; color: var(--text-muted); width: 2rem; }
-        .reveal-btn { background: transparent; color: var(--accent-warm); border: 1px solid var(--accent-warm); padding: 0.75rem 1.5rem; font-size: 0.9rem; border-radius: 4px; cursor: pointer; transition: 0.2s; }
-        .reveal-btn:hover { background: var(--accent-warm); color: #fff; }
-        .answer-section { display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px dashed var(--border-color); }
-        .answer-section.visible { display: block; animation: fadeIn 0.3s; }
-        .answer-badge { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 0.5rem; }
-        .answer-content { font-size: 1.1rem; margin-bottom: 1.5rem; white-space: pre-wrap; }
-        .explanation { background: var(--bg-base); padding: 1.5rem; border-left: 3px solid var(--accent-warm); font-size: 0.95rem; color: var(--text-muted); white-space: pre-wrap; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .empty-state { text-align: center; padding: 4rem; color: var(--text-muted); font-style: italic; }
+      body {
+        background-color: var(--bg-base);
+        color: var(--text-main);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+      }
+      header {
+        text-align: center;
+        padding: 4rem 2rem;
+        border-bottom: 1px solid var(--border-color);
+        background: var(--surface-color);
+      }
+      h1 {
+        font-family: Georgia, serif;
+        font-size: 2.2rem;
+        font-weight: normal;
+        margin-bottom: 0.5rem;
+      }
+      .subtitle {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+      }
+      .filters {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 2.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .filter-btn {
+        border: 1px solid var(--border-color);
+        background: var(--surface-color);
+        padding: 0.5rem 1.25rem;
+        border-radius: 2rem;
+        cursor: pointer;
+        color: var(--text-muted);
+        transition: 0.2s;
+        font-size: 0.9rem;
+      }
+      .filter-btn.active {
+        background: var(--text-main);
+        color: #fff;
+        border-color: var(--text-main);
+      }
+      .filter-btn:hover:not(.active) {
+        border-color: var(--accent-warm);
+        color: var(--accent-warm);
+      }
+      .card {
+        background: var(--surface-color);
+        border: 1px solid var(--border-color);
+        padding: 2.5rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      }
+      .card-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.75rem;
+      }
+      .card-type {
+        color: var(--accent-warm);
+        font-weight: 600;
+      }
+      .card-question {
+        font-family: Georgia, serif;
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+        white-space: pre-wrap;
+      }
+      .options {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 1.5rem;
+      }
+      .option {
+        display: flex;
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+      }
+      .option:hover {
+        background: var(--mcq-hover);
+      }
+      .option.selected {
+        background: var(--mcq-hover);
+        border-color: var(--accent-warm);
+      }
+      .option.correct {
+        background: var(--correct-bg);
+        border-color: var(--correct-border);
+        color: #2b542c;
+      }
+      .option.incorrect {
+        background: var(--incorrect-bg);
+        border-color: var(--incorrect-border);
+        color: #7a2e28;
+      }
+      .opt-id {
+        font-weight: 600;
+        color: var(--text-muted);
+        width: 2rem;
+      }
+      .reveal-btn {
+        background: transparent;
+        color: var(--accent-warm);
+        border: 1px solid var(--accent-warm);
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .reveal-btn:hover {
+        background: var(--accent-warm);
+        color: #fff;
+      }
+      .answer-section {
+        display: none;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px dashed var(--border-color);
+      }
+      .answer-section.visible {
+        display: block;
+        animation: fadeIn 0.3s;
+      }
+      .answer-badge {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        letter-spacing: 0.1em;
+        margin-bottom: 0.5rem;
+      }
+      .answer-content {
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+        white-space: pre-wrap;
+      }
+      .explanation {
+        background: var(--bg-base);
+        padding: 1.5rem;
+        border-left: 3px solid var(--accent-warm);
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        white-space: pre-wrap;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(5px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .empty-state {
+        text-align: center;
+        padding: 4rem;
+        color: var(--text-muted);
+        font-style: italic;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Chemistry Preparation Database</h1>
-        <div class="subtitle">Comprehensive Exam Collection</div>
+      <h1>Chemistry Preparation Database</h1>
+      <div class="subtitle">Comprehensive Exam Collection</div>
     </header>
 
     <div class="container">
-        <div class="filters" id="filter-container">
-            <button class="filter-btn active" data-filter="all">All Questions</button>
-            <button class="filter-btn" data-filter="mcq">Multiple Choice</button>
-            <button class="filter-btn" data-filter="short_question">Short Answer</button>
-            <button class="filter-btn" data-filter="long_question">Long Answer</button>
-        </div>
-        <div id="questions-container"></div>
+      <div class="filters" id="filter-container">
+        <button class="filter-btn active" data-filter="all">
+          All Questions
+        </button>
+        <button class="filter-btn" data-filter="mcq">Multiple Choice</button>
+        <button class="filter-btn" data-filter="short_question">
+          Short Answer
+        </button>
+        <button class="filter-btn" data-filter="long_question">
+          Long Answer
+        </button>
+      </div>
+      <div id="questions-container"></div>
     </div>
 
     <script src="data.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const container = document.getElementById('questions-container');
-            const filterContainer = document.getElementById('filter-container');
-            let currentFilter = 'all';
+      document.addEventListener("DOMContentLoaded", () => {
+        const container = document.getElementById("questions-container");
+        const filterContainer = document.getElementById("filter-container");
+        let currentFilter = "all";
 
-            if (typeof quizData === 'undefined' || !Array.isArray(quizData)) {
-                container.innerHTML = '<div class="empty-state">Data not loaded.</div>';
-                return;
+        if (typeof quizData === "undefined" || !Array.isArray(quizData)) {
+          container.innerHTML =
+            '<div class="empty-state">Data not loaded.</div>';
+          return;
+        }
+
+        const formatType = (t) =>
+          t === "mcq"
+            ? "Multiple Choice"
+            : t === "short_question"
+              ? "Short Answer"
+              : t === "long_question"
+                ? "Long Answer"
+                : t.replace(/_/g, " ");
+
+        function render() {
+          container.innerHTML = "";
+          const filtered =
+            currentFilter === "all"
+              ? quizData
+              : quizData.filter((q) => q.type === currentFilter);
+          if (!filtered.length) {
+            container.innerHTML =
+              '<div class="empty-state">No questions found.</div>';
+            return;
+          }
+
+          filtered.forEach((q) => {
+            const card = document.createElement("div");
+            card.className = "card";
+            let optHtml = "";
+            if (q.type === "mcq" && Array.isArray(q.options)) {
+              optHtml =
+                '<ul class="options">' +
+                q.options
+                  .map(
+                    (o) =>
+                      `<li class="option" data-id="${o.id}"><span class="opt-id">${o.id}.</span><span class="opt-text">${o.text}</span></li>`,
+                  )
+                  .join("") +
+                "</ul>";
             }
 
-            const formatType = (t) => t === 'mcq' ? 'Multiple Choice' : t === 'short_question' ? 'Short Answer' : t === 'long_question' ? 'Long Answer' : t.replace(/_/g, ' ');
+            let ans =
+              q.type === "mcq"
+                ? q.correctAnswer || ""
+                : q.answer || q.correctAnswer || "No answer provided.";
+            if (q.type === "mcq" && q.options && q.correctAnswer) {
+              const hit = q.options.find((o) => o.id === q.correctAnswer);
+              if (hit) ans = `${q.correctAnswer}. ${hit.text}`;
+            }
 
-            function render() {
-                container.innerHTML = '';
-                const filtered = currentFilter === 'all' ? quizData : quizData.filter(q => q.type === currentFilter);
-                if (!filtered.length) {
-                    container.innerHTML = '<div class="empty-state">No questions found.</div>'; return;
-                }
-
-                filtered.forEach(q => {
-                    const card = document.createElement('div'); card.className = 'card';
-                    let optHtml = '';
-                    if (q.type === 'mcq' && Array.isArray(q.options)) {
-                        optHtml = '<ul class="options">' + q.options.map(o => `<li class="option" data-id="${o.id}"><span class="opt-id">${o.id}.</span><span class="opt-text">${o.text}</span></li>`).join('') + '</ul>';
-                    }
-
-                    let ans = q.type === 'mcq' ? (q.correctAnswer || '') : (q.answer || q.correctAnswer || 'No answer provided.');
-                    if (q.type === 'mcq' && q.options && q.correctAnswer) {
-                        const hit = q.options.find(o => o.id === q.correctAnswer);
-                        if (hit) ans = `${q.correctAnswer}. ${hit.text}`;
-                    }
-
-                    const expHtml = q.explanation ? `<div class="answer-badge">Explanation</div><div class="explanation">${q.explanation}</div>` : '';
-                    card.innerHTML = `
-                        <div class="card-meta"><span class="card-type">${formatType(q.type)}</span><span>${q.category || 'General'}</span></div>
+            const expHtml = q.explanation
+              ? `<div class="answer-badge">Explanation</div><div class="explanation">${q.explanation}</div>`
+              : "";
+            card.innerHTML = `
+                        <div class="card-meta"><span class="card-type">${formatType(q.type)}</span><span>${q.category || "General"}</span></div>
                         <h2 class="card-question">${q.question}</h2>
                         ${optHtml}<button class="reveal-btn">Show Answer</button>
                         <div class="answer-section"><div class="answer-badge">Correct Answer</div><div class="answer-content">${ans}</div>${expHtml}</div>`;
 
-                    container.appendChild(card);
-                    const btn = card.querySelector('.reveal-btn'), sec = card.querySelector('.answer-section'), opts = card.querySelectorAll('.option');
-                    
-                    btn.addEventListener('click', () => {
-                        const vis = sec.classList.toggle('visible');
-                        btn.textContent = vis ? 'Hide Answer' : 'Show Answer';
-                        if (vis && q.type === 'mcq' && q.correctAnswer) {
-                            opts.forEach(o => {
-                                if (o.dataset.id === q.correctAnswer) o.classList.add('correct');
-                                else if (o.classList.contains('selected')) o.classList.add('incorrect');
-                            });
-                        }
-                    });
-                    
-                    opts.forEach(o => o.addEventListener('click', () => {
-                        if (!sec.classList.contains('visible')) { opts.forEach(x => x.classList.remove('selected')); o.classList.add('selected'); }
-                    }));
-                });
-            }
+            container.appendChild(card);
+            const btn = card.querySelector(".reveal-btn"),
+              sec = card.querySelector(".answer-section"),
+              opts = card.querySelectorAll(".option");
 
-            filterContainer.addEventListener('click', e => {
-                if (e.target.classList.contains('filter-btn')) {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    e.target.classList.add('active'); currentFilter = e.target.dataset.filter; render();
-                }
+            btn.addEventListener("click", () => {
+              const vis = sec.classList.toggle("visible");
+              btn.textContent = vis ? "Hide Answer" : "Show Answer";
+              if (vis && q.type === "mcq" && q.correctAnswer) {
+                opts.forEach((o) => {
+                  if (o.dataset.id === q.correctAnswer)
+                    o.classList.add("correct");
+                  else if (o.classList.contains("selected"))
+                    o.classList.add("incorrect");
+                });
+              }
             });
+
+            opts.forEach((o) =>
+              o.addEventListener("click", () => {
+                if (!sec.classList.contains("visible")) {
+                  opts.forEach((x) => x.classList.remove("selected"));
+                  o.classList.add("selected");
+                  if (q.type === "mcq") btn.click();
+                }
+              }),
+            );
+          });
+        }
+
+        filterContainer.addEventListener("click", (e) => {
+          if (e.target.classList.contains("filter-btn")) {
+            document
+              .querySelectorAll(".filter-btn")
+              .forEach((b) => b.classList.remove("active"));
+            e.target.classList.add("active");
+            currentFilter = e.target.dataset.filter;
             render();
+          }
         });
+        render();
+      });
     </script>
-</body>
+  </body>
 </html>
