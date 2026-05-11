@@ -1,0 +1,412 @@
+{
+  "questions": [
+    {
+      "q": "The number of sodium hydroxide molecules present in 40 gm of it is:",
+      "opts": ["6.023×10²³", "12.044×10²⁰", "6.023×10²¹", "3.015×10²³"],
+      "ans": 0,
+      "hint": "Molar mass NaOH = 40g = 1 mole = 6.023×10²³ molecules"
+    },
+    {
+      "q": "When CO gas is heated with Fehling's solution, red ppt. of ______ is formed:",
+      "opts": ["CH₃OH", "CuO", "Cu₂O", "Ag"],
+      "ans": 2,
+      "hint": "Fehling's test reduces Cu²⁺ to Cu₂O (red precipitate)"
+    },
+    {
+      "q": "The microelement present in diet is:",
+      "opts": ["Cu", "Cl", "Mg", "Na"],
+      "ans": 0,
+      "hint": "Microelements = trace elements; Cu, Zn, I, etc. Mg and Na are macro."
+    },
+    {
+      "q": "The inflammable compound among the following is:",
+      "opts": ["AlCl₃", "BF₃", "NH₃", "PH₃"],
+      "ans": 3,
+      "hint": "PH₃ (phosphine) is highly inflammable, burns with luminous flame."
+    },
+    {
+      "q": "In Down's process for extraction of Sodium:",
+      "opts": [
+        "C is cathode & Fe is anode",
+        "C is anode & Pt is cathode",
+        "Pt is anode & Fe is cathode",
+        "C is anode & Fe is cathode"
+      ],
+      "ans": 3,
+      "hint": "Down's cell: Graphite anode, Iron cathode; NaCl fused at 600°C."
+    },
+    {
+      "q": "Setting of plaster is accompanied with:",
+      "opts": ["Hydrolysis", "Efflorescence", "Hydration", "Dehydration"],
+      "ans": 2,
+      "hint": "Plaster of Paris (CaSO₄·½H₂O) sets by hydration → CaSO₄·2H₂O (Gypsum)."
+    },
+    {
+      "q": "Which of the following diffuses most rapidly?",
+      "opts": ["CO", "NO₂", "NH₃", "CO₂"],
+      "ans": 2,
+      "hint": "Graham's Law: Rate ∝ 1/√M. NH₃=17 (lightest), diffuses fastest."
+    },
+    {
+      "q": "Which allotrope of carbon can be used to make superconductors?",
+      "opts": ["Charcoal", "Fullerene", "Gas carbon", "Lamp black"],
+      "ans": 1,
+      "hint": "Fullerene (C₆₀) doped with alkali metals becomes superconducting."
+    },
+    {
+      "q": "The IUPAC name of (CH₃)₂C=C(CH₃)₂ is:",
+      "opts": [
+        "2,3-dimethylbutane",
+        "2-ethylbut-2-ene",
+        "2,3-dimethylbut-2-ene",
+        "2-ethylpent-2-ene"
+      ],
+      "ans": 2,
+      "hint": "4 carbons in chain, double bond at C2, methyl groups at C2,C3."
+    },
+    {
+      "q": "When Cl₂ reacts with hot & conc. NaOH, the product is:",
+      "opts": ["NaClO₃", "NaClO", "NaClO₃ & NaClO", "NaCl & NaClO"],
+      "ans": 3,
+      "hint": "Hot conc: 3Cl₂+6NaOH→5NaCl+NaClO₃+3H₂O. Cold dilute gives NaCl+NaClO."
+    },
+    {
+      "q": "Which of the following oxides is amphoteric?",
+      "opts": ["Na₂O", "ZnO", "CO", "SO₂"],
+      "ans": 1,
+      "hint": "ZnO & Al₂O₃ are amphoteric (react with both acids & bases)."
+    },
+    {
+      "q": "The hybridization in graphite is:",
+      "opts": ["sp", "sp²", "sp³", "dsp²"],
+      "ans": 1,
+      "hint": "Graphite: each C bonded to 3 others in hexagonal layers → sp²."
+    },
+    {
+      "q": "Shape of orbital is given by which quantum number?",
+      "opts": ["Principal", "Azimuthal", "Magnetic", "Spin"],
+      "ans": 1,
+      "hint": "Azimuthal (l) = shape; Principal (n) = size/energy; Magnetic (m) = orientation."
+    },
+    {
+      "q": "Which property of alkaline earth metals increases with atomic number?",
+      "opts": [
+        "Ionisation energy",
+        "Solubility of hydroxides",
+        "Solubility of sulphates",
+        "Electronegativity"
+      ],
+      "ans": 1,
+      "hint": "Down group 2: IE↓, electronegativity↓, sulphate solubility↓, hydroxide solubility↑."
+    },
+    {
+      "q": "The number of sigma and pi bonds in benzene is:",
+      "opts": ["6σ, 3π", "12σ, 3π", "6σ, 6π", "12σ, 6π"],
+      "ans": 1,
+      "hint": "Benzene: 6 C-C σ + 6 C-H σ = 12σ; 3 delocalized π bonds."
+    },
+    {
+      "q": "Bauxite ore is concentrated by:",
+      "opts": [
+        "Calcination",
+        "Leaching",
+        "Gravity separation",
+        "Froth floatation"
+      ],
+      "ans": 1,
+      "hint": "Bauxite (Al₂O₃·2H₂O) purified by Bayer's process (leaching with NaOH)."
+    },
+    {
+      "q": "The incomplete period in periodic table is:",
+      "opts": ["4th", "5th", "6th", "7th"],
+      "ans": 3,
+      "hint": "7th period is incomplete (ongoing discoveries of superheavy elements)."
+    },
+    {
+      "q": "The oxidation number of Fe in K₃[Fe(CN)₆] is:",
+      "opts": ["+2", "+3", "+4", "+1"],
+      "ans": 1,
+      "hint": "K=+1 ×3=+3; CN=-1 ×6=-6; Fe must be +3 to balance: +3+3-6=0."
+    },
+    {
+      "q": "The compound that contains both ionic and covalent bonds is:",
+      "opts": ["CH₄", "H₂", "KCN", "KCl"],
+      "ans": 2,
+      "hint": "KCN: K⁺[C≡N]⁻ — ionic K⁺...CN⁻ and covalent C≡N triple bond."
+    },
+    {
+      "q": "Which compound is assigned octane number 100?",
+      "opts": ["iso-octane", "n-octane", "n-heptane", "n-nonane"],
+      "ans": 0,
+      "hint": "iso-octane (2,2,4-trimethylpentane) = 100; n-heptane = 0."
+    },
+    {
+      "q": "Alkali metals can be extracted from their salts by:",
+      "opts": [
+        "Electrolysis of fused halides",
+        "Reduction with carbon",
+        "Reduction with aluminium",
+        "Electrolysis of aqueous solution of their halides"
+      ],
+      "ans": 0,
+      "hint": "Alkali metals are highly reactive; extracted by electrolysis of molten (fused) halides."
+    },
+    {
+      "q": "IUPAC name of CH₂=CH-CH₂-CH₂-OH is:",
+      "opts": [
+        "Butanol",
+        "But-3-en-1-ol",
+        "But-1-en-4-ol",
+        "4-Hydroxybut-1-ene"
+      ],
+      "ans": 1,
+      "hint": "4-carbon chain, double bond at C3, -OH at C1 → but-3-en-1-ol. Lowest locant for -OH."
+    },
+    {
+      "q": "A radioactive isotope of hydrogen is:",
+      "opts": ["Tritium", "Deuterium", "Protium", "H₂"],
+      "ans": 0,
+      "hint": "Tritium (³H) is radioactive (β-emitter, half-life ~12.3 years)."
+    },
+    {
+      "q": "Tetrabromoethane on heating with zinc gives:",
+      "opts": ["Ethyl bromide", "Ethane", "Ethyne", "Ethene"],
+      "ans": 2,
+      "hint": "Dehalogenation: C₂H₂Br₄ + 2Zn → C₂H₂ (ethyne) + 2ZnBr₂."
+    },
+    {
+      "q": "White phosphorus reacts with caustic alkali to give:",
+      "opts": ["P₂O₅", "Na₃P", "PH₃", "H₃PO₄"],
+      "ans": 2,
+      "hint": "P₄ + 3NaOH + 3H₂O → PH₃ (phosphine) + 3NaH₂PO₂."
+    },
+    {
+      "q": "How many pi-electrons are present in benzene?",
+      "opts": ["3", "6", "8", "12"],
+      "ans": 1,
+      "hint": "6 π-electrons (each double bond contributes 2; 3×2=6 delocalized)."
+    },
+    {
+      "q": "The formula of bleaching powder is:",
+      "opts": ["CaCl₂", "CaOCl₂", "Ca(OCl)₂", "Ca(ClO₃)₂"],
+      "ans": 1,
+      "hint": "Bleaching powder = CaOCl₂ (calcium oxychloride), made from Cl₂+Ca(OH)₂."
+    },
+    {
+      "q": "Paste of lime in water is called:",
+      "opts": ["Lime water", "Lime light", "Milk of lime", "Slaked lime"],
+      "ans": 2,
+      "hint": "Milk of lime = suspension of Ca(OH)₂ in water. Lime water = clear solution."
+    },
+    {
+      "q": "Weight of one molecule of CaCO₃ is:",
+      "opts": ["1.26×10⁻²³g", "1.66×10⁻²²g", "1.66×10⁻²⁴g", "1.5×10⁻²³g"],
+      "ans": 1,
+      "hint": "Molar mass=100g/mol; 1 molecule=100/6.023×10²³=1.66×10⁻²²g."
+    },
+    {
+      "q": "Structure of NaCl crystal is:",
+      "opts": [
+        "Body centered cubic",
+        "Face centered cubic",
+        "Simple cube",
+        "Face centered orthogonal"
+      ],
+      "ans": 1,
+      "hint": "NaCl = FCC lattice (both Na⁺ & Cl⁻ form interpenetrating FCC)."
+    }
+  ],
+  "flashcards": [
+    {
+      "front": "Graham's Law of Diffusion",
+      "back": "Rate ∝ 1/√M<br><br>r₁/r₂ = √(M₂/M₁)<br>NH₃ (17) fastest; CO₂ (44) slower."
+    },
+    {
+      "front": "Kp-Kc Relationship",
+      "back": "Kp = Kc(RT)^Δn<br>Δn = moles(gaseous products) - moles(gaseous reactants)<br>If Δn=0, Kp=Kc."
+    },
+    {
+      "front": "Faraday's 1st Law",
+      "back": "m ∝ Q<br>m = Z × I × t<br>Z = E/96500 (E=equivalent mass)<br>1 Faraday = 96500 C."
+    },
+    {
+      "front": "Hückel's Rule",
+      "back": "Aromatic if:<br>1. Planar cyclic<br>2. (4n+2) π electrons<br>Benzene: n=1, 6π e⁻ ✅<br>Cyclobutadiene: 4π e⁻ ❌"
+    },
+    {
+      "front": "Ozonolysis of Propene",
+      "back": "CH₃-CH=CH₂ + O₃ →<br>CH₃CHO (acetaldehyde) + HCHO (formaldehyde)<br>X=Propene, Y=Ethanal, Z=Methanal"
+    },
+    {
+      "front": "Contact Process (H₂SO₄)",
+      "back": "1. S+O₂→SO₂<br>2. SO₂+O₂⇌SO₃ (V₂O₅, 450°C)<br>3. SO₃+H₂SO₄→oleum<br>4. Oleum+H₂O→H₂SO₄"
+    },
+    {
+      "front": "Solvay Process (Na₂CO₃)",
+      "back": "NaCl+NH₃+CO₂+H₂O→NaHCO₃+NH₄Cl<br>2NaHCO₃→Na₂CO₃+CO₂+H₂O<br>Limestone→CaO+CO₂; CaO+H₂O→Ca(OH)₂"
+    },
+    {
+      "front": "Haber's Process (NH₃)",
+      "back": "N₂+3H₂⇌2NH₃+heat<br>Conditions: 200-300 atm, 450-500°C, Fe catalyst<br>Le Chatelier: High P, moderate T."
+    },
+    {
+      "front": "Amphoteric Oxides",
+      "back": "React with BOTH acids & bases:<br>ZnO, Al₂O₃, BeO, PbO<br>ZnO+2HCl→ZnCl₂+H₂O<br>ZnO+2NaOH→Na₂ZnO₂+H₂O"
+    },
+    {
+      "front": "IUPAC Priority",
+      "back": "-OH > -CHO > -COOH > double bond > triple bond<br>CH₂=CH-CH₂-CH₂-OH = but-3-en-1-ol<br>Lowest number to -OH."
+    },
+    {
+      "front": "Sigma vs Pi Bonds",
+      "back": "σ: head-on overlap, stronger, free rotation<br>π: sideways overlap, weaker, no rotation<br>Benzene: 12σ + 3π bonds"
+    },
+    {
+      "front": "Markovnikov's Rule",
+      "back": "H adds to C with MORE H atoms.<br>CH₃-CH=CH₂ + HBr → CH₃-CHBr-CH₃ (major)<br>Peroxide effect reverses it (Anti-Markovnikov)."
+    },
+    {
+      "front": "Charles' Law",
+      "back": "V ∝ T (at constant P)<br>V₁/T₁ = V₂/T₂<br>Absolute zero = -273.15°C = 0K<br>At 0K, volume theoretically becomes zero."
+    },
+    {
+      "front": "Limiting Reactant",
+      "back": "Reactant that gets consumed FIRST.<br>Find moles of each; divide by coefficient.<br>Smallest value = limiting.<br>Excess = initial - consumed."
+    },
+    {
+      "front": "Oxidation Numbers (Key)",
+      "back": "Fe in K₃[Fe(CN)₆] = +3<br>S in H₂S₂O₈ = +6<br>O = -2 (except peroxides=-1)<br>H = +1 (except hydrides=-1)<br>Sum = charge of species."
+    }
+  ],
+  "cheatsheet": [
+    {
+      "title": "Must-Know Formulas",
+      "icon": "formula",
+      "items": [
+        "<strong>Mole:</strong> n = mass/molar mass = N/NA",
+        "<strong>Graham:</strong> r₁/r₂ = √(M₂/M₁)",
+        "<strong>Charles:</strong> V₁/T₁ = V₂/T₂",
+        "<strong>Ideal Gas:</strong> PV = nRT (R=0.0821 L·atm/mol·K)",
+        "<strong>Kp-Kc:</strong> Kp = Kc(RT)^Δn",
+        "<strong>Faraday:</strong> m = Z·I·t, Z = E/96500",
+        "<strong>MW:</strong> Molecular weight = 2 × Vapour Density",
+        "<strong>NTP Volume:</strong> 1 mole gas = 22.4 L at NTP"
+      ]
+    },
+    {
+      "title": "Key Reactions to MEMORIZE",
+      "icon": "reaction",
+      "items": [
+        "<strong>Ozonolysis:</strong> CH₃-CH=CH₂ → CH₃CHO + HCHO",
+        "<strong>Wurtz:</strong> 2CH₃-CHBr-CH₃ + 2Na → (CH₃)₂CH-CH(CH₃)₂",
+        "<strong>Cl₂+hot NaOH:</strong> 3Cl₂+6NaOH→5NaCl+NaClO₃+3H₂O",
+        "<strong>White P+NaOH:</strong> P₄+3NaOH+3H₂O→PH₃+3NaH₂PO₂",
+        "<strong>Fehling's test:</strong> R-CHO + 2Cu²⁺ → Cu₂O↓(red)",
+        "<strong>Dehalogenation:</strong> C₂H₂Br₄+2Zn→C₂H₂+2ZnBr₂"
+      ]
+    },
+    {
+      "title": "IUPAC Naming Cheats",
+      "icon": "naming",
+      "items": [
+        "<strong>(CH₃)₂C=C(CH₃)₂</strong> = 2,3-dimethylbut-2-ene",
+        "<strong>CH₂=CH-CH₂-CH₂-OH</strong> = but-3-en-1-ol",
+        "<strong>(CH₃)₂CHOCH₃</strong> = 2-methoxypropane",
+        "<strong>CH₂=CH-CH(CH₃)₂</strong> = 3-methylbut-1-ene"
+      ]
+    },
+    {
+      "title": "Common Confusions",
+      "icon": "warning",
+      "items": [
+        "<strong>Amphoteric:</strong> ZnO, Al₂O₃ (NOT Na₂O, CO, SO₂)",
+        "<strong>Inflammable:</strong> PH₃ (phosphine) — burns spontaneously",
+        "<strong>Radioactive H:</strong> Tritium (³H) — NOT deuterium",
+        "<strong>Octane 100:</strong> iso-octane; <strong>Octane 0:</strong> n-heptane",
+        "<strong>Microelements:</strong> Cu, Zn, I; <strong>Macro:</strong> Mg, Na, Cl"
+      ]
+    }
+  ],
+  "modelpaper": {
+    "groups": [
+      {
+        "title": "GROUP 'A' — MCQs [11×1=11]",
+        "color": "#222",
+        "questions": [
+          "Number of molecules in 4.4g CO₂? (6.023×10²²)",
+          "Hybridization of carbon in graphite? (sp²)",
+          "Fastest diffusing gas? (NH₃)",
+          "IUPAC of (CH₃)₂C=C(CH₃)₂? (2,3-dimethylbut-2-ene)",
+          "Alkali metal extraction method? (Electrolysis of fused halides)",
+          "Amphoteric oxide? (ZnO / Al₂O₃)",
+          "Oxidation number of Fe in K₃[Fe(CN)₆]? (+3)",
+          "Sigma & pi bonds in benzene? (12σ, 3π)",
+          "Octane number 100? (iso-octane)",
+          "Shape of orbital — which quantum number? (Azimuthal)",
+          "Cl₂ + hot conc NaOH → ? (NaClO₃ + NaCl)"
+        ]
+      },
+      {
+        "title": "GROUP 'B' — Short Questions [8×5=40]",
+        "color": "#333",
+        "description": "Key topics: Charles' Law + CO₂ volume calc | Redox balancing (Zn+HNO₃) | Kp-Kc derivation | Faraday's 1st Law | Graham's diffusion (CₙH₂ₙ₊₂ vs SO₂) | Ostwald's process principle | Hückel's rule | Lewis structures + geometry | Nascent hydrogen reactions | Homologous series + octane number."
+      },
+      {
+        "title": "GROUP 'C' — Long Questions [3×8=24]",
+        "color": "#444",
+        "questions": [
+          "Q11: Contact Process (H₂SO₄) — 4 steps, flow sheet, dehydrating nature, SO₄²⁻ test.",
+          "Q12: Stoichiometry — 20g marble (90% CaCO₃) + 50g HCl (36.5%) → limiting reactant, excess moles, CO₂ volume, NaOH mass to absorb CO₂.",
+          "Q13: Ozonolysis: alkene X → Y(C₂H₄O) + Z(CH₂O). Identify, IUPAC, HBr addition, prep from 1-bromopropane, unsaturation test, convert to propane.",
+          "OR: CO₂ polarity, Diamond vs Graphite, Passivity of Iron, Micro/Macronutrients."
+        ]
+      }
+    ]
+  },
+  "examTips": [
+    {
+      "title": "The \"Last 24 Hours\" Strategy",
+      "icon": "brain",
+      "color": "#ffd700",
+      "items": [
+        "Sleep is NON-NEGOTIABLE: 6-7 hours minimum. Your brain consolidates memory during sleep. Pulling an all-nighter drops performance by 30-40%.",
+        "Active Recall > Reading: Close the book and say it out loud. Quiz yourself. Reading passively tricks your brain into thinking you know it.",
+        "Teach a wall: Explain concepts to an imaginary person. If you can't explain it simply, you don't know it yet."
+      ]
+    },
+    {
+      "title": "Marks Hunting Strategy (Target: 55+)",
+      "icon": "target",
+      "color": "#00d2ff",
+      "items": [
+        "MCQs (11 marks): Easy pickings. Do all 30 in this quiz 2-3 times. You'll memorize patterns. Aim for 9-10/11.",
+        "Short Questions (40 marks): 5 \"sure-shot\" topics = 25 marks minimum. Focus: Charles' Law, Redox balancing, Kp-Kc, Faraday's Law, Graham's diffusion.",
+        "Long Questions (24 marks): Flow sheet diagrams are FREE marks. Draw them neat. Contact/Solvay/Haber process = guaranteed question.",
+        "Partial marks: Even if you can't solve fully, write formulas, draw the flow chart, write the principle. NEB gives step marks."
+      ]
+    },
+    {
+      "title": "Exam Hall Playbook",
+      "icon": "playbook",
+      "color": "#ff6b9d",
+      "items": [
+        "First 5 mins: Scan entire paper. Mark \"easy\" questions. Start with what you know best.",
+        "MCQs first: 15 minutes max. If stuck, eliminate 2 options, guess from remaining 2. Move on.",
+        "Short answers: 80 minutes. Write point-wise. Underline keywords. Diagrams where possible.",
+        "Long answers: 60 minutes. Flow sheets take 3-4 minutes to draw — DO THEM. They're worth 2-3 marks alone.",
+        "Last 10 mins: Review. Check units (L, atm, K). Fill any blanks — NEVER leave a question unanswered."
+      ]
+    },
+    {
+      "title": "How 55 Marks Break Down",
+      "icon": "chart",
+      "color": "#00e676",
+      "items": [
+        "MCQs: 8-9 correct = 8-9 marks",
+        "5 Short Qs: 3-4 done well (5 each) + 2 partial (3 each) = 21-26 marks",
+        "3 Long Qs: 1 perfectly (7-8) + 2 partial (5-6 each) = 17-20 marks",
+        "Total: 46-55 marks — RIGHT where you need to be!"
+      ]
+    }
+  ]
+}
