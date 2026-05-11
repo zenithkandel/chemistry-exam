@@ -78,6 +78,7 @@ function shuffle(arr) {
 }
 
 function navigateTo(page) {
+  sessionStorage.setItem("chemcrash_currentPage", page);
   const navItems = document.querySelectorAll(".nav-item");
   navItems.forEach(item => item.classList.remove("active"));
   document.querySelector(`[data-page="${page}"]`)?.classList.add("active");
@@ -473,6 +474,7 @@ function renderSyllabus() {
     <div class="syllabus-page">`;
   
   units.forEach((unit, uIdx) => {
+    const isExpanded = expandedUnits[uIdx] === true;
     html += `<div class="syllabus-unit">
       <div class="syllabus-unit-header" onclick="toggleUnit(${uIdx})">
         <div class="syllabus-unit-title">${unit.unit_number}. ${unit.unit_name}</div>
@@ -481,7 +483,7 @@ function renderSyllabus() {
           <span class="syllabus-badge ${unit.importance_level === 'Very High' ? 'high' : 'medium'}">${unit.importance_level}</span>
         </div>
       </div>
-      <div class="syllabus-chapters" id="unit-${uIdx}">`;
+      <div class="syllabus-chapters ${isExpanded ? 'show' : ''}" id="unit-${uIdx}">`;
     
     unit.chapters.forEach((chapter, chIdx) => {
       const chapterKey = `unit${uIdx}-ch${chIdx}`;
@@ -531,7 +533,16 @@ function renderSyllabus() {
 
 function toggleUnit(idx) {
   const el = getEl("unit-" + idx);
-  if (el) el.classList.toggle("show");
+  if (el) {
+    const isExpanded = el.classList.contains("show");
+    if (isExpanded) {
+      delete expandedUnits[idx];
+    } else {
+      expandedUnits[idx] = true;
+    }
+    el.classList.toggle("show");
+    localStorage.setItem("chemcrash_expanded", JSON.stringify(expandedUnits));
+  }
 }
 
 function toggleChapter(key, e) {
@@ -815,7 +826,8 @@ function resumeQuiz() {
 
 function init() {
   loadData().then(() => {
-    navigateTo("dashboard");
+    const savedPage = sessionStorage.getItem("chemcrash_currentPage") || "dashboard";
+    navigateTo(savedPage);
 
     document.querySelectorAll(".nav-item").forEach(btn => {
       btn.addEventListener("click", () => navigateTo(btn.dataset.page));
