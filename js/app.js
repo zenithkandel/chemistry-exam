@@ -79,9 +79,10 @@ function shuffle(arr) {
 
 function navigateTo(page) {
   sessionStorage.setItem("chemcrash_currentPage", page);
-  const navItems = document.querySelectorAll(".nav-item");
-  navItems.forEach(item => item.classList.remove("active"));
-  document.querySelector(`[data-page="${page}"]`)?.classList.add("active");
+  document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+  document.querySelectorAll(".bottom-nav-item").forEach(item => item.classList.remove("active"));
+  document.querySelector(`.sidebar .nav-item[data-page="${page}"]`)?.classList.add("active");
+  document.querySelector(`.bottom-nav-item[data-page="${page}"]`)?.classList.add("active");
   const titleEl = getEl("topbar-title");
   if (titleEl) titleEl.textContent = page.charAt(0).toUpperCase() + page.slice(1);
   const mainContent = getEl("mainContent");
@@ -830,6 +831,10 @@ function init() {
     navigateTo(savedPage);
 
     document.querySelectorAll(".nav-item").forEach(btn => {
+      btn.addEventListener("click", () => navigateTo(btn.dataset.page));
+    });
+
+    document.querySelectorAll(".bottom-nav-item").forEach(btn => {
       btn.addEventListener("click", () => navigateTo(btn.dataset.page));
     });
 
