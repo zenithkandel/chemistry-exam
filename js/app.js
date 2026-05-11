@@ -187,8 +187,20 @@ function renderDashboard() {
 function renderQuiz() {
   getEl("mainContent").innerHTML = `
     <div class="card">
-      <div class="card-header"><div><div class="card-title">Quiz Mode</div><div class="card-subtitle">Practice MCQs with 20-second timer</div></div></div>
+      <div class="card-header">
+        <div>
+          <div class="card-title">Quiz Mode</div>
+          <div class="card-subtitle">Practice MCQs with 20-second timer</div>
+        </div>
+        <button class="btn btn-outline" id="pauseBtn" onclick="togglePause()">
+          <i class="fa-light fa-pause"></i> Pause
+        </button>
+      </div>
       <div class="quiz-panel" id="quizContainer">
+        <div class="blur-overlay" id="blurOverlay">
+          <i class="fa-light fa-pause"></i>
+          <p>Quiz Paused</p>
+        </div>
         <div class="quiz-header">
           <div class="q-progress"><span class="q-number" id="qNumber">Q 1/30</span><div class="q-progress-bar"><div class="q-progress-fill" id="qProgressFill" style="width:0%"></div></div></div>
           <span class="q-timer" id="qTimer">20s</span>
@@ -206,9 +218,20 @@ function renderQuiz() {
         <div class="score-number" id="scoreNumber">0/30</div>
         <button class="btn btn-primary" onclick="restartQuiz()">Try Again</button>
       </div>
+      <div class="resume-modal" id="resumeModal" style="display:none;">
+        <i class="fa-light fa-gamepad-modern"></i>
+        <h3>Welcome Back!</h3>
+        <p>Your quiz progress has been saved.</p>
+        <div class="progress-info" id="resumeProgress">Question 5 of 30</div>
+        <div class="actions">
+          <button class="btn btn-outline" onclick="restartQuiz()">Start New</button>
+          <button class="btn btn-primary" onclick="resumeQuiz()">Resume Quiz</button>
+        </div>
+      </div>
     </div>`;
   prepareRound();
   getEl("skipBtn")?.addEventListener("click", skipQuestion);
+  initVisibilityHandler();
 }
 
 function prepareRound() {
@@ -551,6 +574,62 @@ function performSearch(query) {
   if (syllabusData.syllabus) syllabusData.syllabus.forEach(unit => { unit.chapters.forEach(ch => { if (ch.chapter_name.toLowerCase().includes(q)) results.push({ type: "Chapter", title: ch.chapter_name, sub: unit.unit_name, page: "syllabus" }); }); });
   
   return results.slice(0, 10);
+}
+
+function initVisibilityHandler() {
+  document.addEventListener("visibilitychange", () => {
+    if (!quizActive || currentQIndex >= roundQuestions.length) return;
+    if (document.hidden) {
+      pauseQuiz();
+      quizTabLeft = true;
+    }
+  });
+}
+
+function togglePause() {
+  if (!quizActive) return;
+  if (isQuizPaused) {
+    resumeQuiz();
+  } else {
+    pauseQuiz();
+  }
+}
+
+function pauseQuiz() {
+  if (!quizActive || isQuizPaused) return;
+  isQuizPaused = true;
+  clearInterval(timerInterval);
+  savedTimeLeft = timeLeft;
+  const blurOverlay = getEl("blurOverlay");
+  const pauseBtn = getEl("pauseBtn");
+  if (blurOverlay) blurOverlay.classList.add("show");
+  if (pauseBtn) {
+    pauseBtn.innerHTML = '<i class="fa-light fa-play"></i> Resume';
+  }
+  const quizContainer = getEl("quizContainer");
+  if (quizContainer) quizContainer.querySelectorAll(".option-btn").forEach(b => b.classList.add("locked"));
+}
+
+function resumeQuiz() {
+  if (!isQuizPaused) return;
+  isQuizPaused = false;
+  const blurOverlay = getEl("blurOverlay");
+  const pauseBtn = getEl("pauseBtn");
+  if (blurOverlay) blurOverlay.classList.remove("show");
+  if (pauseBtn) {
+    pauseBtn.innerHTML = '<i class="fa-light fa-pause"></i> Pause';
+  }
+  const optionsGrid = getEl("optionsGrid");
+  if (optionsGrid) optionsGrid.querySelectorAll(".option-btn").forEach(b => b.classList.remove("locked"));
+  
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const qTimer = getEl("qTimer");
+    if (qTimer) qTimer.textContent = timeLeft + "s";
+    if (qTimer && timeLeft <= 5) qTimer.classList.add("urgent");
+    if (timeLeft <= 0) { clearInterval(timerInterval); autoSkip(); }
+  }, 1000);
 }
 
 function init() {
