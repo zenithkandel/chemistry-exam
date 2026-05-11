@@ -128,7 +128,7 @@
                                 <div class="card-subtitle">Practice MCQs with a 20-second timer</div>
                             </div>
                         </div>
-                        <div class="quiz-panel panel active" id="panel-quiz">
+                        <div class="quiz-panel" id="quizContainer">
                             <div class="quiz-header">
                                 <div class="q-progress">
                                     <span class="q-number" id="qNumber">Q 1/30</span>
@@ -141,21 +141,21 @@
                             <div class="question-text" id="questionText">Loading question...</div>
                             <div class="options-grid" id="optionsGrid"></div>
                             <div class="quiz-actions">
-                                <button class="btn btn-outline" id="skipBtn" style="display: none;">
+                                <button class="btn btn-outline" id="skipBtn">
                                     Skip
                                 </button>
                                 <button class="btn btn-primary" onclick="restartQuiz()">
                                     Restart Quiz
                                 </button>
                             </div>
-                            <div class="score-screen" id="scoreScreen" style="display: none;">
-                                <h3>Quiz Complete!</h3>
-                                <p id="scoreMessage">Great effort!</p>
-                                <div class="score-number" id="scoreNumber">0/30</div>
-                                <button class="btn btn-primary" onclick="restartQuiz()">
-                                    Try Again
-                                </button>
-                            </div>
+                        </div>
+                        <div class="score-screen" id="scoreScreen" style="display: none;">
+                            <h3>Quiz Complete!</h3>
+                            <p id="scoreMessage">Great effort!</p>
+                            <div class="score-number" id="scoreNumber">0/30</div>
+                            <button class="btn btn-primary" onclick="restartQuiz()">
+                                Try Again
+                            </button>
                         </div>
                     </div>
 

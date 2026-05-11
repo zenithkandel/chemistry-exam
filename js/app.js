@@ -16,19 +16,7 @@ let timeLeft = 20;
 const questionsPerRound = 30;
 let roundQuestions = [];
 
-const quizContainer = document.getElementById("quizContainer");
-const scoreScreen = document.getElementById("scoreScreen");
-const questionText = document.getElementById("questionText");
-const optionsGrid = document.getElementById("optionsGrid");
-const qNumber = document.getElementById("qNumber");
-const qProgressFill = document.getElementById("qProgressFill");
-const qTimer = document.getElementById("qTimer");
-const toast = document.getElementById("toast");
-const totalXPDisp = document.getElementById("totalXP");
-const streakDisp = document.getElementById("streakCount");
-const accuracyDisp = document.getElementById("accuracyDisplay");
-const questionsDoneDisp = document.getElementById("questionsDone");
-const skipBtn = document.getElementById("skipBtn");
+function getEl(id) { return document.getElementById(id); }
 
 async function loadData() {
   try {
@@ -45,27 +33,30 @@ async function loadData() {
 }
 
 function updateStats() {
+  const totalXPDisp = getEl("totalXP");
+  const streakDisp = getEl("streakCount");
+  const accuracyDisp = getEl("accuracyDisplay");
+  const questionsDoneDisp = getEl("questionsDone");
+  if (!totalXPDisp || !streakDisp || !accuracyDisp || !questionsDoneDisp) return;
+  
   totalXPDisp.textContent = totalXP;
   streakDisp.textContent = streak;
-  accuracyDisp.textContent =
-    totalAttempted > 0
-      ? Math.round((correctCount / totalAttempted) * 100) + "%"
-      : "0%";
+  accuracyDisp.textContent = totalAttempted > 0 ? Math.round((correctCount / totalAttempted) * 100) + "%" : "0%";
   questionsDoneDisp.textContent = totalAttempted + "/50";
   localStorage.setItem("chemcrash_xp", totalXP);
   localStorage.setItem("chemcrash_bestStreak", Math.max(bestStreak, streak));
 }
 
 function showToast(msg, type) {
+  const toast = getEl("toast");
+  if (!toast) return;
   toast.textContent = msg;
   toast.className = "feedback-toast " + type;
   toast.style.display = "block";
   toast.style.animation = "none";
   toast.offsetHeight;
   toast.style.animation = "toastIn 0.3s ease, toastOut 0.3s 1.5s ease forwards";
-  setTimeout(() => {
-    toast.style.display = "none";
-  }, 1800);
+  setTimeout(() => { toast.style.display = "none"; }, 1800);
 }
 
 function shuffle(arr) {
@@ -78,55 +69,72 @@ function shuffle(arr) {
 }
 
 function prepareRound() {
+  const quizContainer = getEl("quizContainer");
+  const scoreScreen = getEl("scoreScreen");
+  const skipBtn = getEl("skipBtn");
+  
   roundQuestions = shuffle(allQuestions).slice(0, questionsPerRound);
   currentQIndex = 0;
   correctCount = 0;
   totalAttempted = 0;
   streak = 0;
   quizActive = true;
-  scoreScreen.style.display = "none";
-  quizContainer.style.display = "block";
-  skipBtn.style.display = "inline-flex";
+  if (scoreScreen) scoreScreen.style.display = "none";
+  if (quizContainer) quizContainer.style.display = "block";
+  if (skipBtn) skipBtn.style.display = "inline-flex";
   updateStats();
   renderQuestion();
 }
 
 function renderQuestion() {
+  const quizContainer = getEl("quizContainer");
+  const questionText = getEl("questionText");
+  const qNumber = getEl("qNumber");
+  const qProgressFill = getEl("qProgressFill");
+  const qTimer = getEl("qTimer");
+  const optionsGrid = getEl("optionsGrid");
+  const skipBtn = getEl("skipBtn");
+  
   if (currentQIndex >= roundQuestions.length) {
     endQuiz();
     return;
   }
   clearInterval(timerInterval);
   timeLeft = 20;
-  qTimer.textContent = timeLeft + "s";
-  qTimer.classList.remove("urgent");
-  quizContainer.classList.remove("correct-flash", "wrong-flash");
+  if (qTimer) qTimer.textContent = timeLeft + "s";
+  if (qTimer) qTimer.classList.remove("urgent");
+  if (quizContainer) quizContainer.classList.remove("correct-flash", "wrong-flash");
+  
   const q = roundQuestions[currentQIndex];
-  questionText.textContent = q.q;
-  qNumber.textContent = "Q " + (currentQIndex + 1) + "/" + roundQuestions.length;
-  qProgressFill.style.width = (currentQIndex / roundQuestions.length) * 100 + "%";
+  if (questionText) questionText.textContent = q.q;
+  if (qNumber) qNumber.textContent = "Q " + (currentQIndex + 1) + "/" + roundQuestions.length;
+  if (qProgressFill) qProgressFill.style.width = (currentQIndex / roundQuestions.length) * 100 + "%";
+  
   const shuffledOpts = shuffle(q.opts.map((o, i) => ({ text: o, origIndex: i })));
-  optionsGrid.innerHTML = "";
-  shuffledOpts.forEach((opt) => {
-    const btn = document.createElement("button");
-    btn.className = "option-btn";
-    btn.textContent = opt.text;
-    btn.addEventListener("click", () => selectAnswer(opt.origIndex, btn));
-    optionsGrid.appendChild(btn);
-  });
-  skipBtn.style.display = "inline-flex";
+  if (optionsGrid) {
+    optionsGrid.innerHTML = "";
+    shuffledOpts.forEach((opt) => {
+      const btn = document.createElement("button");
+      btn.className = "option-btn";
+      btn.textContent = opt.text;
+      btn.addEventListener("click", () => selectAnswer(opt.origIndex, btn));
+      optionsGrid.appendChild(btn);
+    });
+  }
+  if (skipBtn) skipBtn.style.display = "inline-flex";
   startTimer();
 }
 
 function startTimer() {
+  const qTimer = getEl("qTimer");
   clearInterval(timerInterval);
   timeLeft = 20;
-  qTimer.textContent = timeLeft + "s";
-  qTimer.classList.remove("urgent");
+  if (qTimer) qTimer.textContent = timeLeft + "s";
+  if (qTimer) qTimer.classList.remove("urgent");
   timerInterval = setInterval(() => {
     timeLeft--;
-    qTimer.textContent = timeLeft + "s";
-    if (timeLeft <= 5) qTimer.classList.add("urgent");
+    if (qTimer) qTimer.textContent = timeLeft + "s";
+    if (qTimer && timeLeft <= 5) qTimer.classList.add("urgent");
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
       autoSkip();
@@ -136,45 +144,52 @@ function startTimer() {
 
 function autoSkip() {
   const q = roundQuestions[currentQIndex];
+  const optionsGrid = getEl("optionsGrid");
+  const skipBtn = getEl("skipBtn");
+  
   totalAttempted++;
   streak = 0;
   showToast("Time's up! Answer: " + q.opts[q.ans], "error");
   highlightCorrectAnswer();
-  lockAllOptions();
+  if (optionsGrid) optionsGrid.querySelectorAll(".option-btn").forEach(b => b.classList.add("locked"));
+  if (skipBtn) skipBtn.style.display = "none";
   updateStats();
-  setTimeout(() => {
-    currentQIndex++;
-    renderQuestion();
-  }, 1600);
+  setTimeout(() => { currentQIndex++; renderQuestion(); }, 1600);
 }
 
 function selectAnswer(chosenIndex, clickedBtn) {
   if (!quizActive) return;
+  const quizContainer = getEl("quizContainer");
+  const optionsGrid = getEl("optionsGrid");
+  const skipBtn = getEl("skipBtn");
+  
   clearInterval(timerInterval);
   quizActive = false;
   const q = roundQuestions[currentQIndex];
   totalAttempted++;
   const isCorrect = chosenIndex === q.ans;
+  
   if (isCorrect) {
     correctCount++;
     streak++;
     if (streak > bestStreak) bestStreak = streak;
     totalXP += 10 + (streak >= 5 ? 15 : streak >= 3 ? 8 : 0);
     clickedBtn.classList.add("correct");
-    quizContainer.classList.add("correct-flash");
+    if (quizContainer) quizContainer.classList.add("correct-flash");
     showToast("Correct! +" + (10 + (streak >= 5 ? 15 : streak >= 3 ? 8 : 0)) + " XP", "success");
   } else {
     streak = 0;
     clickedBtn.classList.add("wrong");
-    quizContainer.classList.add("wrong-flash");
+    if (quizContainer) quizContainer.classList.add("wrong-flash");
     showToast("Wrong! Answer: " + q.opts[q.ans], "error");
     highlightCorrectAnswer();
   }
-  lockAllOptions();
+  if (optionsGrid) optionsGrid.querySelectorAll(".option-btn").forEach(b => b.classList.add("locked"));
+  if (skipBtn) skipBtn.style.display = "none";
   updateStats();
   setTimeout(() => {
     quizActive = true;
-    quizContainer.classList.remove("correct-flash", "wrong-flash");
+    if (quizContainer) quizContainer.classList.remove("correct-flash", "wrong-flash");
     currentQIndex++;
     renderQuestion();
   }, 1600);
@@ -182,61 +197,66 @@ function selectAnswer(chosenIndex, clickedBtn) {
 
 function highlightCorrectAnswer() {
   const q = roundQuestions[currentQIndex];
-  const btns = optionsGrid.querySelectorAll(".option-btn");
-  btns.forEach((b) => {
+  const optionsGrid = getEl("optionsGrid");
+  if (!optionsGrid) return;
+  optionsGrid.querySelectorAll(".option-btn").forEach((b) => {
     if (b.textContent === q.opts[q.ans]) b.classList.add("correct");
   });
 }
 
-function lockAllOptions() {
-  const btns = optionsGrid.querySelectorAll(".option-btn");
-  btns.forEach((b) => b.classList.add("locked"));
-  skipBtn.style.display = "none";
-}
-
 function endQuiz() {
+  const quizContainer = getEl("quizContainer");
+  const scoreScreen = getEl("scoreScreen");
+  const qProgressFill = getEl("qProgressFill");
+  const skipBtn = getEl("skipBtn");
+  const scoreNumber = getEl("scoreNumber");
+  const scoreMessage = getEl("scoreMessage");
+  
   clearInterval(timerInterval);
   quizActive = false;
-  quizContainer.style.display = "none";
-  scoreScreen.style.display = "block";
-  skipBtn.style.display = "none";
+  if (quizContainer) quizContainer.style.display = "none";
+  if (scoreScreen) scoreScreen.style.display = "block";
+  if (skipBtn) skipBtn.style.display = "none";
+  
   const score = correctCount;
   const total = roundQuestions.length;
   const pct = Math.round((score / total) * 100);
-  document.getElementById("scoreNumber").textContent = score + "/" + total;
+  if (scoreNumber) scoreNumber.textContent = score + "/" + total;
+  
   let msg;
-  if (pct >= 90) {
-    msg = "ABSOLUTE LEGEND! You're ready for 70+ marks!";
-  } else if (pct >= 75) {
-    msg = "Great job! 55+ marks totally achievable!";
-  } else if (pct >= 60) {
-    msg = "Solid effort! Keep revising the cheat sheet!";
-  } else if (pct >= 40) {
-    msg = "Getting there! Focus on the red-highlighted topics.";
-  } else {
-    msg = "No worries! Use the flash cards and cheat sheet - you've got this!";
-  }
-  document.getElementById("scoreMessage").textContent = msg;
-  qProgressFill.style.width = "100%";
+  if (pct >= 90) msg = "ABSOLUTE LEGEND! You're ready for 70+ marks!";
+  else if (pct >= 75) msg = "Great job! 55+ marks totally achievable!";
+  else if (pct >= 60) msg = "Solid effort! Keep revising the cheat sheet!";
+  else if (pct >= 40) msg = "Getting there! Focus on the red-highlighted topics.";
+  else msg = "No worries! Use the flash cards and cheat sheet - you've got this!";
+  
+  if (scoreMessage) scoreMessage.textContent = msg;
+  if (qProgressFill) qProgressFill.style.width = "100%";
   updateStats();
 }
 
 function restartQuiz() {
   clearInterval(timerInterval);
   quizActive = true;
-  scoreScreen.style.display = "none";
-  quizContainer.style.display = "block";
+  const scoreScreen = getEl("scoreScreen");
+  const quizContainer = getEl("quizContainer");
+  if (scoreScreen) scoreScreen.style.display = "none";
+  if (quizContainer) quizContainer.style.display = "block";
   prepareRound();
 }
 
 function skipQuestion() {
   if (!quizActive) return;
-  clearInterval(timerInterval);
   const q = roundQuestions[currentQIndex];
+  const optionsGrid = getEl("optionsGrid");
+  const skipBtn = getEl("skipBtn");
+  
+  clearInterval(timerInterval);
   totalAttempted++;
   streak = 0;
   highlightCorrectAnswer();
-  lockAllOptions();
+  if (optionsGrid) optionsGrid.querySelectorAll(".option-btn").forEach(b => b.classList.add("locked"));
+  if (skipBtn) skipBtn.style.display = "none";
   showToast("Skipped! Answer: " + q.opts[q.ans], "error");
   updateStats();
   setTimeout(() => {
@@ -247,7 +267,7 @@ function skipQuestion() {
 }
 
 function renderFlashcards() {
-  const cardsGrid = document.getElementById("cardsGrid");
+  const cardsGrid = getEl("cardsGrid");
   if (!cardsGrid) return;
   cardsGrid.innerHTML = "";
   flashcardData.forEach((card) => {
@@ -264,21 +284,19 @@ function renderFlashcards() {
 }
 
 function renderCheatSheet() {
-  const cheatContent = document.getElementById("cheatContent");
+  const cheatContent = getEl("cheatContent");
   if (!cheatContent) return;
   cheatContent.innerHTML = "";
   cheatSections.forEach((sec) => {
     const div = document.createElement("div");
     div.className = "cheat-section";
-    div.innerHTML =
-      "<h3>" + sec.title + "</h3>" +
-      sec.items.map((i) => '<div class="cheat-item">' + i + "</div>").join("");
+    div.innerHTML = "<h3>" + sec.title + "</h3>" + sec.items.map((i) => '<div class="cheat-item">' + i + "</div>").join("");
     cheatContent.appendChild(div);
   });
 }
 
 function renderModelPaper() {
-  const modelPaperContent = document.getElementById("modelPaperContent");
+  const modelPaperContent = getEl("modelPaperContent");
   if (!modelPaperContent || !modelPaperData.groups) return;
   let html = "";
   modelPaperData.groups.forEach((group) => {
@@ -294,14 +312,13 @@ function renderModelPaper() {
 }
 
 function renderExamTips() {
-  const tipsContent = document.getElementById("tipsContent");
+  const tipsContent = getEl("tipsContent");
   if (!tipsContent || !examTipsData) return;
   tipsContent.innerHTML = "";
   examTipsData.forEach((tip) => {
     const div = document.createElement("div");
     div.className = "tip-section";
-    div.innerHTML = `<h3>${tip.title}</h3>` +
-      tip.items.map((item) => `<div class="tip-item"><span class="tip-dot"></span>${item}</div>`).join("");
+    div.innerHTML = `<h3>${tip.title}</h3>` + tip.items.map((item) => `<div class="tip-item"><span class="tip-dot"></span>${item}</div>`).join("");
     tipsContent.appendChild(div);
   });
 }
@@ -312,13 +329,15 @@ function switchTab(tabId) {
   tabBtns.forEach((b) => b.classList.remove("active"));
   panels.forEach((p) => p.classList.remove("active"));
   document.querySelector(`[data-tab="${tabId}"]`)?.classList.add("active");
-  document.getElementById("panel-" + tabId)?.classList.add("active");
-  document.getElementById("topbar-title").textContent = tabId.charAt(0).toUpperCase() + tabId.slice(1);
+  getEl("panel-" + tabId)?.classList.add("active");
+  const topbarTitle = getEl("topbar-title");
+  if (topbarTitle) topbarTitle.textContent = tabId.charAt(0).toUpperCase() + tabId.slice(1);
   if (tabId === "flashcards") renderFlashcards();
   if (tabId === "cheatsheet") renderCheatSheet();
   if (tabId === "modelpaper") renderModelPaper();
   if (tabId === "tips") renderExamTips();
-  if (tabId === "quiz" && !quizActive && scoreScreen.style.display === "none") {
+  const scoreScreen = getEl("scoreScreen");
+  if (tabId === "quiz" && !quizActive && scoreScreen?.style.display === "none") {
     restartQuiz();
   }
 }
@@ -332,22 +351,19 @@ async function init() {
   renderModelPaper();
   renderExamTips();
 
-  const tabBtns = document.querySelectorAll(".nav-item");
-  tabBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      switchTab(btn.dataset.tab);
-    });
+  document.querySelectorAll(".nav-item").forEach((btn) => {
+    btn.addEventListener("click", () => switchTab(btn.dataset.tab));
   });
 
-  if (skipBtn) {
-    skipBtn.addEventListener("click", skipQuestion);
-  }
+  const skipBtn = getEl("skipBtn");
+  if (skipBtn) skipBtn.addEventListener("click", skipQuestion);
 
   document.addEventListener("keydown", (e) => {
     if (!quizActive) return;
     const keys = ["1", "2", "3", "4"];
     const idx = keys.indexOf(e.key);
-    if (idx >= 0) {
+    const optionsGrid = getEl("optionsGrid");
+    if (idx >= 0 && optionsGrid) {
       const btns = optionsGrid.querySelectorAll(".option-btn");
       if (btns[idx]) btns[idx].click();
     }
