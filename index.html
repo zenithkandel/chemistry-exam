@@ -1,1618 +1,268 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>⚗️ ChemCrash 2083 | Last-Minute Chemistry Prep</title>
-    <style>
-      :root {
-        --bg: #0a0a14;
-        --surface: #12122a;
-        --surface2: #1a1a38;
-        --primary: #6c5ce7;
-        --secondary: #00d2ff;
-        --accent: #ff6b9d;
-        --gold: #ffd700;
-        --green: #00e676;
-        --red: #ff4757;
-        --orange: #ffa502;
-        --text: #e0e0f0;
-        --text2: #a0a0c0;
-        --glow: 0 0 20px rgba(108, 92, 231, 0.4);
-        --glow2: 0 0 20px rgba(0, 210, 255, 0.3);
-        --glow-gold: 0 0 20px rgba(255, 215, 0, 0.5);
-        --radius: 16px;
-        --radius-sm: 10px;
-        --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        --bounce: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: "Segoe UI", "Inter", system-ui, sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        min-height: 100vh;
-        overflow-x: hidden;
-        background-image:
-          radial-gradient(
-            ellipse at 20% 20%,
-            rgba(108, 92, 231, 0.08) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            ellipse at 80% 60%,
-            rgba(0, 210, 255, 0.06) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            ellipse at 50% 90%,
-            rgba(255, 107, 157, 0.05) 0%,
-            transparent 50%
-          );
-      }
-
-      /* Floating particles */
-      .particles-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 0;
-      }
-      .particle {
-        position: absolute;
-        border-radius: 50%;
-        animation: floatUp linear infinite;
-        opacity: 0.5;
-      }
-      @keyframes floatUp {
-        0% {
-          transform: translateY(100vh) scale(0) rotate(0deg);
-          opacity: 0;
-        }
-        20% {
-          opacity: 0.7;
-        }
-        100% {
-          transform: translateY(-10vh) scale(1.5) rotate(360deg);
-          opacity: 0;
-        }
-      }
-
-      /* Main layout */
-      .app-container {
-        position: relative;
-        z-index: 1;
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 20px;
-      }
-
-      /* Header */
-      .header {
-        text-align: center;
-        padding: 30px 20px 20px;
-        position: relative;
-      }
-      .header .icon {
-        font-size: 56px;
-        animation: pulse 2s ease-in-out infinite;
-        display: inline-block;
-      }
-      @keyframes pulse {
-        0%,
-        100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.15);
-        }
-      }
-      .header h1 {
-        font-size: 2.4em;
-        font-weight: 800;
-        background: linear-gradient(
-          135deg,
-          var(--secondary),
-          var(--primary),
-          var(--accent)
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin: 8px 0;
-        letter-spacing: -1px;
-      }
-      .header .subtitle {
-        color: var(--text2);
-        font-size: 0.95em;
-        letter-spacing: 1px;
-      }
-      .emergency-badge {
-        display: inline-block;
-        background: var(--red);
-        color: #fff;
-        padding: 6px 16px;
-        border-radius: 20px;
-        font-weight: 700;
-        font-size: 0.85em;
-        animation: shake 0.6s ease-in-out infinite;
-        margin-top: 8px;
-        letter-spacing: 1px;
-      }
-      @keyframes shake {
-        0%,
-        100% {
-          transform: translateX(0);
-        }
-        25% {
-          transform: translateX(-4px);
-        }
-        75% {
-          transform: translateX(4px);
-        }
-      }
-
-      /* Stats bar */
-      .stats-bar {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin: 8px 0 20px;
-      }
-      .stat-card {
-        background: var(--surface);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: var(--radius-sm);
-        padding: 14px 18px;
-        text-align: center;
-        min-width: 80px;
-        flex: 1;
-        max-width: 140px;
-        transition: var(--transition);
-        cursor: default;
-        position: relative;
-        overflow: hidden;
-      }
-      .stat-card:hover {
-        border-color: var(--primary);
-        box-shadow: var(--glow);
-        transform: translateY(-3px);
-      }
-      .stat-card .stat-value {
-        font-size: 2em;
-        font-weight: 800;
-        background: linear-gradient(135deg, var(--secondary), var(--primary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-      .stat-card .stat-label {
-        font-size: 0.7em;
-        color: var(--text2);
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        margin-top: 2px;
-      }
-      .stat-card.highlight {
-        border-color: var(--gold);
-        box-shadow: var(--glow-gold);
-      }
-      .stat-card.highlight .stat-value {
-        background: linear-gradient(135deg, #ffd700, #ffa502);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-
-      /* Tab navigation */
-      .tab-nav {
-        display: flex;
-        gap: 6px;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin: 0 0 20px;
-        background: var(--surface);
-        border-radius: 30px;
-        padding: 5px;
-        position: sticky;
-        top: 15px;
-        z-index: 10;
-        border: 1px solid rgba(255, 255, 255, 0.06);
-      }
-      .tab-btn {
-        padding: 10px 18px;
-        border-radius: 25px;
-        border: none;
-        background: transparent;
-        color: var(--text2);
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 0.88em;
-        transition: var(--transition);
-        white-space: nowrap;
-        letter-spacing: 0.5px;
-      }
-      .tab-btn:hover {
-        color: #fff;
-        background: rgba(255, 255, 255, 0.05);
-      }
-      .tab-btn.active {
-        background: var(--primary);
-        color: #fff;
-        box-shadow: var(--glow);
-        font-weight: 700;
-      }
-      .tab-btn .emoji {
-        margin-right: 4px;
-      }
-
-      /* Panel */
-      .panel {
-        display: none;
-        animation: fadeSlideIn 0.4s ease;
-      }
-      .panel.active {
-        display: block;
-      }
-      @keyframes fadeSlideIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* Quiz card */
-      .quiz-container {
-        background: var(--surface);
-        border-radius: var(--radius);
-        padding: 30px;
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        position: relative;
-        overflow: hidden;
-        transition: var(--transition);
-      }
-      .quiz-container.correct-flash {
-        box-shadow: 0 0 60px rgba(0, 230, 118, 0.5);
-        border-color: var(--green);
-      }
-      .quiz-container.wrong-flash {
-        box-shadow: 0 0 60px rgba(255, 71, 87, 0.5);
-        border-color: var(--red);
-        animation: shakeCard 0.5s ease;
-      }
-      @keyframes shakeCard {
-        0%,
-        100% {
-          transform: translateX(0);
-        }
-        20% {
-          transform: translateX(-8px);
-        }
-        40% {
-          transform: translateX(8px);
-        }
-        60% {
-          transform: translateX(-5px);
-        }
-        80% {
-          transform: translateX(5px);
-        }
-      }
-      .q-progress {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 20px;
-      }
-      .q-progress-bar {
-        flex: 1;
-        height: 6px;
-        background: var(--surface2);
-        border-radius: 3px;
-        overflow: hidden;
-      }
-      .q-progress-fill {
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          var(--secondary),
-          var(--primary),
-          var(--accent)
-        );
-        border-radius: 3px;
-        transition: width 0.4s ease;
-      }
-      .q-number {
-        font-weight: 700;
-        font-size: 0.85em;
-        color: var(--text2);
-        white-space: nowrap;
-      }
-      .q-timer {
-        font-weight: 800;
-        font-size: 1em;
-        color: var(--secondary);
-        white-space: nowrap;
-        min-width: 50px;
-        text-align: right;
-      }
-      .q-timer.urgent {
-        color: var(--red);
-        animation: pulse 0.4s ease-in-out infinite;
-      }
-      .question-text {
-        font-size: 1.15em;
-        font-weight: 600;
-        margin-bottom: 20px;
-        line-height: 1.5;
-        color: #fff;
-      }
-      .options-grid {
-        display: grid;
-        gap: 10px;
-      }
-      .option-btn {
-        display: block;
-        width: 100%;
-        padding: 15px 18px;
-        background: var(--surface2);
-        border: 2px solid rgba(255, 255, 255, 0.08);
-        border-radius: var(--radius-sm);
-        color: var(--text);
-        cursor: pointer;
-        font-size: 0.95em;
-        text-align: left;
-        transition: var(--transition);
-        font-weight: 500;
-        position: relative;
-        overflow: hidden;
-      }
-      .option-btn:hover {
-        border-color: var(--primary);
-        background: rgba(108, 92, 231, 0.1);
-        transform: translateX(4px);
-        box-shadow: var(--glow);
-      }
-      .option-btn:active {
-        transform: scale(0.97);
-      }
-      .option-btn.correct {
-        border-color: var(--green);
-        background: rgba(0, 230, 118, 0.15);
-        color: #fff;
-        font-weight: 700;
-        animation: popIn 0.4s var(--bounce);
-      }
-      .option-btn.wrong {
-        border-color: var(--red);
-        background: rgba(255, 71, 87, 0.15);
-        animation: shakeCard 0.4s ease;
-      }
-      .option-btn.locked {
-        pointer-events: none;
-        opacity: 0.7;
-      }
-      .option-btn.locked.correct {
-        opacity: 1;
-      }
-      @keyframes popIn {
-        0% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.03);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-      .feedback-toast {
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 14px 28px;
-        border-radius: 30px;
-        font-weight: 700;
-        font-size: 1em;
-        z-index: 100;
-        animation:
-          toastIn 0.4s var(--bounce),
-          toastOut 0.3s 1.5s ease forwards;
-        letter-spacing: 0.5px;
-        pointer-events: none;
-      }
-      .feedback-toast.success {
-        background: #00e676;
-        color: #000;
-        box-shadow: 0 10px 30px rgba(0, 230, 118, 0.5);
-      }
-      .feedback-toast.error {
-        background: #ff4757;
-        color: #fff;
-        box-shadow: 0 10px 30px rgba(255, 71, 87, 0.5);
-      }
-      @keyframes toastIn {
-        from {
-          opacity: 0;
-          transform: translateX(-50%) translateY(-40px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(-50%) translateY(0);
-        }
-      }
-      @keyframes toastOut {
-        from {
-          opacity: 1;
-        }
-        to {
-          opacity: 0;
-          transform: translateX(-50%) translateY(-20px);
-        }
-      }
-
-      /* Score screen */
-      .score-screen {
-        text-align: center;
-        padding: 30px;
-      }
-      .score-emoji {
-        font-size: 80px;
-        animation: bounceEmoji 0.6s var(--bounce);
-      }
-      @keyframes bounceEmoji {
-        0% {
-          transform: scale(0);
-        }
-        60% {
-          transform: scale(1.2);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-      .score-number {
-        font-size: 5em;
-        font-weight: 900;
-        background: linear-gradient(135deg, var(--gold), var(--orange));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin: 10px 0;
-      }
-      .score-message {
-        font-size: 1.2em;
-        color: var(--text2);
-        margin-bottom: 20px;
-      }
-
-      /* Study cards */
-      .cards-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 14px;
-      }
-      .flip-card {
-        perspective: 1000px;
-        height: 200px;
-        cursor: pointer;
-      }
-      .flip-card-inner {
-        width: 100%;
-        height: 100%;
-        position: relative;
-        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        transform-style: preserve-3d;
-      }
-      .flip-card.flipped .flip-card-inner {
-        transform: rotateY(180deg);
-      }
-      .flip-card-front,
-      .flip-card-back {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        backface-visibility: hidden;
-        border-radius: var(--radius-sm);
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-      }
-      .flip-card-front {
-        background: var(--surface);
-        color: #fff;
-        font-weight: 700;
-        font-size: 1.1em;
-      }
-      .flip-card-back {
-        background: var(--surface2);
-        color: var(--text);
-        transform: rotateY(180deg);
-        font-size: 0.9em;
-        line-height: 1.4;
-        border-color: var(--primary);
-        box-shadow: var(--glow);
-      }
-      .flip-hint {
-        font-size: 0.7em;
-        color: var(--text2);
-        margin-top: 8px;
-        letter-spacing: 1px;
-      }
-
-      /* Cheat sheet */
-      .cheat-section {
-        background: var(--surface);
-        border-radius: var(--radius);
-        padding: 24px;
-        margin-bottom: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-      }
-      .cheat-section h3 {
-        color: var(--secondary);
-        margin-bottom: 12px;
-        font-size: 1.1em;
-      }
-      .cheat-item {
-        padding: 8px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        font-size: 0.9em;
-        line-height: 1.5;
-      }
-      .cheat-item strong {
-        color: var(--accent);
-      }
-      .formula-highlight {
-        display: inline-block;
-        background: rgba(108, 92, 231, 0.2);
-        padding: 3px 10px;
-        border-radius: 6px;
-        font-family: "Courier New", monospace;
-        font-weight: 700;
-        color: var(--secondary);
-      }
-
-      /* Buttons */
-      .btn {
-        padding: 12px 28px;
-        border-radius: 30px;
-        border: none;
-        font-weight: 700;
-        cursor: pointer;
-        font-size: 0.95em;
-        transition: var(--transition);
-        letter-spacing: 0.5px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .btn-primary {
-        background: var(--primary);
-        color: #fff;
-        box-shadow: var(--glow);
-      }
-      .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 0 30px rgba(108, 92, 231, 0.6);
-      }
-      .btn-outline {
-        background: transparent;
-        border: 2px solid var(--primary);
-        color: var(--primary);
-      }
-      .btn-outline:hover {
-        background: rgba(108, 92, 231, 0.1);
-      }
-      .btn-danger {
-        background: var(--red);
-        color: #fff;
-      }
-      .btn-gold {
-        background: linear-gradient(135deg, #ffd700, #ffa502);
-        color: #000;
-        font-weight: 800;
-        box-shadow: var(--glow-gold);
-      }
-      .btn-sm {
-        padding: 8px 16px;
-        font-size: 0.8em;
-      }
-
-      /* Confetti */
-      .confetti-piece {
-        position: fixed;
-        z-index: 200;
-        pointer-events: none;
-        animation: confettiFall 1.5s ease forwards;
-      }
-      @keyframes confettiFall {
-        0% {
-          transform: translateY(-100px) rotate(0deg);
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(110vh) rotate(720deg);
-          opacity: 0;
-        }
-      }
-
-      /* Responsive */
-      @media (max-width: 600px) {
-        .header h1 {
-          font-size: 1.6em;
-        }
-        .quiz-container {
-          padding: 18px;
-        }
-        .question-text {
-          font-size: 1em;
-        }
-        .option-btn {
-          padding: 12px 14px;
-          font-size: 0.85em;
-        }
-        .tab-btn {
-          padding: 8px 12px;
-          font-size: 0.75em;
-        }
-        .stat-card {
-          padding: 10px 12px;
-          min-width: 60px;
-          max-width: 100px;
-        }
-        .stat-card .stat-value {
-          font-size: 1.4em;
-        }
-        .cards-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Floating particles background -->
-    <div class="particles-container" id="particles"></div>
-
-    <!-- Feedback toast -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChemCrash 2083 | Chemistry Exam Prep</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
     <div id="toast" class="feedback-toast" style="display: none"></div>
 
-    <!-- App -->
-    <div class="app-container">
-      <!-- Header -->
-      <header class="header">
-        <span class="icon">⚗️</span>
-        <h1>ChemCrash 2083</h1>
-        <p class="subtitle">LAST‑MINUTE CHEMISTRY DASHBOARD</p>
-        <div class="emergency-badge">⚠️ EXAM TOMORROW — CRAM MODE ACTIVE</div>
-      </header>
-
-      <!-- Stats -->
-      <div class="stats-bar">
-        <div class="stat-card highlight">
-          <div class="stat-value" id="totalXP">0</div>
-          <div class="stat-label">⚡ Total XP</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="streakCount">0</div>
-          <div class="stat-label">🔥 Streak</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="accuracyDisplay">0%</div>
-          <div class="stat-label">🎯 Accuracy</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="questionsDone">0/50</div>
-          <div class="stat-label">📝 Questions Done</div>
-        </div>
-      </div>
-
-      <!-- Tabs -->
-      <nav class="tab-nav" id="tabNav">
-        <button class="tab-btn active" data-tab="quiz">
-          <span class="emoji">🎮</span> Quiz Mode
-        </button>
-        <button class="tab-btn" data-tab="flashcards">
-          <span class="emoji">🃏</span> Flash Cards
-        </button>
-        <button class="tab-btn" data-tab="cheatsheet">
-          <span class="emoji">📋</span> Cheat Sheet
-        </button>
-        <button class="tab-btn" data-tab="modelpaper">
-          <span class="emoji">📄</span> Model Paper
-        </button>
-        <button class="tab-btn" data-tab="tips">
-          <span class="emoji">💡</span> Exam Tips
-        </button>
-      </nav>
-
-      <!-- QUIZ PANEL -->
-      <div class="panel active" id="panel-quiz">
-        <div class="quiz-container" id="quizContainer">
-          <div class="q-progress">
-            <span class="q-number" id="qNumber">Q 1/30</span>
-            <div class="q-progress-bar">
-              <div
-                class="q-progress-fill"
-                id="qProgressFill"
-                style="width: 0%"
-              ></div>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="sidebar-logo-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M9 3h6v4l3 9H6l3-9V3z"/>
+                        <path d="M9 3h6"/>
+                        <path d="M8 16h8"/>
+                    </svg>
+                </div>
+                <div class="sidebar-logo-text">
+                    ChemCrash
+                    <span>2083 Edition</span>
+                </div>
             </div>
-            <span class="q-timer" id="qTimer">⏱ 20s</span>
-          </div>
-          <div class="question-text" id="questionText">Loading question...</div>
-          <div class="options-grid" id="optionsGrid"></div>
-          <div style="text-align: center; margin-top: 16px">
-            <button
-              class="btn btn-outline btn-sm"
-              id="skipBtn"
-              style="display: none"
-            >
-              ⏭ Skip
-            </button>
-          </div>
+            <nav class="sidebar-nav">
+                <div class="nav-item active" data-tab="quiz">
+                    <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg>
+                    Quiz Mode
+                </div>
+                <div class="nav-item" data-tab="flashcards">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h12M6 12h8"/></svg>
+                    Flash Cards
+                </div>
+                <div class="nav-item" data-tab="cheatsheet">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+                    Cheat Sheet
+                </div>
+                <div class="nav-item" data-tab="modelpaper">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                    Model Paper
+                </div>
+                <div class="nav-item" data-tab="tips">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                    Exam Tips
+                </div>
+                <div class="nav-divider"></div>
+                <div class="nav-item" data-tab="settings">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    Settings
+                </div>
+            </nav>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 class="topbar-title" id="topbar-title">Quiz Mode</h1>
+                </div>
+                <div class="topbar-right">
+                    <div class="search-box">
+                        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                        <input type="text" placeholder="Search topics...">
+                    </div>
+                    <button class="icon-btn">
+                        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        <span class="badge"></span>
+                    </button>
+                    <div class="avatar">ST</div>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <div class="dashboard-header">
+                    <h1>Dashboard</h1>
+                    <p>Track your chemistry exam preparation progress</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-card-label">Total XP</span>
+                            <div class="stat-card-icon green">
+                                <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                            </div>
+                        </div>
+                        <div class="stat-card-value" id="totalXP">0</div>
+                        <div class="stat-card-sub">Points earned</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-card-label">Streak</span>
+                            <div class="stat-card-icon orange">
+                                <svg viewBox="0 0 24 24"><path d="M12 2c.5 5-3 7-3 12a6 6 0 1 0 12 0c0-2.5-1.5-4-3-6-1 2-3 4-6 4s-5-2-6-4c-1.5 2-3 3.5-3 6 0 5-3.5 7-3 12"/></svg>
+                            </div>
+                        </div>
+                        <div class="stat-card-value" id="streakCount">0</div>
+                        <div class="stat-card-sub">Correct in a row</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-card-label">Accuracy</span>
+                            <div class="stat-card-icon blue">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                            </div>
+                        </div>
+                        <div class="stat-card-value" id="accuracyDisplay">0%</div>
+                        <div class="stat-card-sub">Questions answered</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-card-label">Progress</span>
+                            <div class="stat-card-icon purple">
+                                <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                            </div>
+                        </div>
+                        <div class="stat-card-value" id="questionsDone">0/50</div>
+                        <div class="stat-card-sub">Questions completed</div>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Quiz Mode</div>
+                                <div class="card-subtitle">Practice MCQs with a 20-second timer</div>
+                            </div>
+                        </div>
+                        <div class="quiz-panel panel active" id="panel-quiz">
+                            <div class="quiz-header">
+                                <div class="q-progress">
+                                    <span class="q-number" id="qNumber">Q 1/30</span>
+                                    <div class="q-progress-bar">
+                                        <div class="q-progress-fill" id="qProgressFill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <span class="q-timer" id="qTimer">20s</span>
+                            </div>
+                            <div class="question-text" id="questionText">Loading question...</div>
+                            <div class="options-grid" id="optionsGrid"></div>
+                            <div class="quiz-actions">
+                                <button class="btn btn-outline" id="skipBtn" style="display: none;">
+                                    Skip
+                                </button>
+                                <button class="btn btn-primary" onclick="restartQuiz()">
+                                    Restart Quiz
+                                </button>
+                            </div>
+                            <div class="score-screen" id="scoreScreen" style="display: none;">
+                                <h3>Quiz Complete!</h3>
+                                <p id="scoreMessage">Great effort!</p>
+                                <div class="score-number" id="scoreNumber">0/30</div>
+                                <button class="btn btn-primary" onclick="restartQuiz()">
+                                    Try Again
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="card side-card">
+                            <div class="side-card-header">
+                                <div class="side-card-title">Topic Progress</div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-item-header">
+                                    <span class="progress-item-label">Organic Chemistry</span>
+                                    <span class="progress-item-value">72%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 72%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-item-header">
+                                    <span class="progress-item-label">Physical Chemistry</span>
+                                    <span class="progress-item-value">58%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 58%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-item-header">
+                                    <span class="progress-item-label">Inorganic Chemistry</span>
+                                    <span class="progress-item-value">45%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 45%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-item-header">
+                                    <span class="progress-item-label">Stoichiometry</span>
+                                    <span class="progress-item-value">63%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 63%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card cta-card">
+                            <h4>Need to Ace the Exam?</h4>
+                            <p>Review all flashcards and the cheat sheet before your exam date.</p>
+                            <button class="cta-btn" onclick="switchTab('flashcards')">
+                                Start Reviewing
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel" id="panel-flashcards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Flash Cards</div>
+                                <div class="card-subtitle">Tap cards to reveal the answer</div>
+                            </div>
+                        </div>
+                        <div class="flip-cards-grid" id="cardsGrid"></div>
+                    </div>
+                </div>
+
+                <div class="panel" id="panel-cheatsheet">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Cheat Sheet</div>
+                                <div class="card-subtitle">Key formulas, reactions, and quick references</div>
+                            </div>
+                        </div>
+                        <div id="cheatContent"></div>
+                    </div>
+                </div>
+
+                <div class="panel" id="panel-modelpaper">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Model Paper 2083</div>
+                                <div class="card-subtitle">Predicted question pattern based on past papers</div>
+                            </div>
+                        </div>
+                        <div class="model-paper-content" id="modelPaperContent"></div>
+                    </div>
+                </div>
+
+                <div class="panel" id="panel-tips">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Exam Tips</div>
+                                <div class="card-subtitle">Last-minute survival guide and marks strategy</div>
+                            </div>
+                        </div>
+                        <div class="tips-content" id="tipsContent"></div>
+                    </div>
+                </div>
+            </main>
         </div>
-        <div class="score-screen" id="scoreScreen" style="display: none">
-          <div class="score-emoji" id="scoreEmoji">🎉</div>
-          <div class="score-number" id="scoreNumber">0</div>
-          <div class="score-message" id="scoreMessage"></div>
-          <button class="btn btn-gold" onclick="restartQuiz()">
-            🔄 Crush It Again
-          </button>
-        </div>
-      </div>
-
-      <!-- FLASHCARDS PANEL -->
-      <div class="panel" id="panel-flashcards">
-        <h3 style="margin-bottom: 16px; color: var(--secondary)">
-          🃏 Tap to Flip — Key Concepts
-        </h3>
-        <div class="cards-grid" id="cardsGrid"></div>
-      </div>
-
-      <!-- CHEAT SHEET PANEL -->
-      <div class="panel" id="panel-cheatsheet">
-        <h3 style="margin-bottom: 16px; color: var(--secondary)">
-          📋 Master Cheat Sheet
-        </h3>
-        <div id="cheatContent"></div>
-      </div>
-
-      <!-- MODEL PAPER PANEL -->
-      <div class="panel" id="panel-modelpaper">
-        <h3 style="margin-bottom: 16px; color: var(--secondary)">
-          📄 Predicted Model Question Paper (2083)
-        </h3>
-        <div
-          id="modelPaperContent"
-          style="
-            background: var(--surface);
-            border-radius: var(--radius);
-            padding: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 0.9em;
-            line-height: 1.7;
-            max-height: 70vh;
-            overflow-y: auto;
-          "
-        ></div>
-      </div>
-
-      <!-- EXAM TIPS PANEL -->
-      <div class="panel" id="panel-tips">
-        <h3 style="margin-bottom: 16px; color: var(--secondary)">
-          💡 Last-Minute Survival Guide
-        </h3>
-        <div id="tipsContent"></div>
-      </div>
     </div>
 
-    <script>
-      // ============================================
-      // CHEMCRASH 2083 - COMPLETE QUIZ + STUDY APP
-      // ============================================
-
-      // --- PARTICLES ---
-      (function createParticles() {
-        const container = document.getElementById("particles");
-        const colors = [
-          "#6c5ce7",
-          "#00d2ff",
-          "#ff6b9d",
-          "#ffd700",
-          "#00e676",
-          "#ffa502",
-        ];
-        for (let i = 0; i < 45; i++) {
-          const p = document.createElement("div");
-          p.className = "particle";
-          p.style.left = Math.random() * 100 + "%";
-          p.style.width = p.style.height = Math.random() * 6 + 2 + "px";
-          p.style.backgroundColor =
-            colors[Math.floor(Math.random() * colors.length)];
-          p.style.animationDuration = Math.random() * 12 + 8 + "s";
-          p.style.animationDelay = Math.random() * 10 + "s";
-          container.appendChild(p);
-        }
-      })();
-
-      // --- STATE ---
-      let totalXP = parseInt(localStorage.getItem("chemcrash_xp") || "0");
-      let streak = 0;
-      let bestStreak = parseInt(
-        localStorage.getItem("chemcrash_bestStreak") || "0",
-      );
-      let correctCount = 0;
-      let totalAttempted = 0;
-      let currentQIndex = 0;
-      let quizActive = false;
-      let timerInterval = null;
-      let timeLeft = 20;
-      const questionsPerRound = 30;
-
-      // --- ALL MCQs (curated from past papers analysis) ---
-      const allQuestions = [
-        {
-          q: "The number of sodium hydroxide molecules present in 40 gm of it is:",
-          opts: ["6.023×10²³", "12.044×10²⁰", "6.023×10²¹", "3.015×10²³"],
-          ans: 0,
-          hint: "Molar mass NaOH = 40g = 1 mole = 6.023×10²³ molecules",
-        },
-        {
-          q: "When CO gas is heated with Fehling's solution, red ppt. of ______ is formed:",
-          opts: ["CH₃OH", "CuO", "Cu₂O", "Ag"],
-          ans: 2,
-          hint: "Fehling's test reduces Cu²⁺ to Cu₂O (red precipitate)",
-        },
-        {
-          q: "The microelement present in diet is:",
-          opts: ["Cu", "Cl", "Mg", "Na"],
-          ans: 0,
-          hint: "Microelements = trace elements; Cu, Zn, I, etc. Mg and Na are macro.",
-        },
-        {
-          q: "The inflammable compound among the following is:",
-          opts: ["AlCl₃", "BF₃", "NH₃", "PH₃"],
-          ans: 3,
-          hint: "PH₃ (phosphine) is highly inflammable, burns with luminous flame.",
-        },
-        {
-          q: "In Down's process for extraction of Sodium:",
-          opts: [
-            "C is cathode & Fe is anode",
-            "C is anode & Pt is cathode",
-            "Pt is anode & Fe is cathode",
-            "C is anode & Fe is cathode",
-          ],
-          ans: 3,
-          hint: "Down's cell: Graphite anode, Iron cathode; NaCl fused at 600°C.",
-        },
-        {
-          q: "Setting of plaster is accompanied with:",
-          opts: ["Hydrolysis", "Efflorescence", "Hydration", "Dehydration"],
-          ans: 2,
-          hint: "Plaster of Paris (CaSO₄·½H₂O) sets by hydration → CaSO₄·2H₂O (Gypsum).",
-        },
-        {
-          q: "Which of the following diffuses most rapidly?",
-          opts: ["CO", "NO₂", "NH₃", "CO₂"],
-          ans: 2,
-          hint: "Graham's Law: Rate ∝ 1/√M. NH₃=17 (lightest), diffuses fastest.",
-        },
-        {
-          q: "Which allotrope of carbon can be used to make superconductors?",
-          opts: ["Charcoal", "Fullerene", "Gas carbon", "Lamp black"],
-          ans: 1,
-          hint: "Fullerene (C₆₀) doped with alkali metals becomes superconducting.",
-        },
-        {
-          q: "The IUPAC name of (CH₃)₂C=C(CH₃)₂ is:",
-          opts: [
-            "2,3-dimethylbutane",
-            "2-ethylbut-2-ene",
-            "2,3-dimethylbut-2-ene",
-            "2-ethylpent-2-ene",
-          ],
-          ans: 2,
-          hint: "4 carbons in chain, double bond at C2, methyl groups at C2,C3.",
-        },
-        {
-          q: "When Cl₂ reacts with hot & conc. NaOH, the product is:",
-          opts: ["NaClO₃", "NaClO", "NaClO₃ & NaClO", "NaCl & NaClO"],
-          ans: 3,
-          hint: "Hot conc: 3Cl₂+6NaOH→5NaCl+NaClO₃+3H₂O. Cold dilute gives NaCl+NaClO.",
-        },
-        {
-          q: "Which of the following oxides is amphoteric?",
-          opts: ["Na₂O", "ZnO", "CO", "SO₂"],
-          ans: 1,
-          hint: "ZnO & Al₂O₃ are amphoteric (react with both acids & bases).",
-        },
-        {
-          q: "The hybridization in graphite is:",
-          opts: ["sp", "sp²", "sp³", "dsp²"],
-          ans: 1,
-          hint: "Graphite: each C bonded to 3 others in hexagonal layers → sp².",
-        },
-        {
-          q: "Shape of orbital is given by which quantum number?",
-          opts: ["Principal", "Azimuthal", "Magnetic", "Spin"],
-          ans: 1,
-          hint: "Azimuthal (l) = shape; Principal (n) = size/energy; Magnetic (m) = orientation.",
-        },
-        {
-          q: "Which property of alkaline earth metals increases with atomic number?",
-          opts: [
-            "Ionisation energy",
-            "Solubility of hydroxides",
-            "Solubility of sulphates",
-            "Electronegativity",
-          ],
-          ans: 1,
-          hint: "Down group 2: IE↓, electronegativity↓, sulphate solubility↓, hydroxide solubility↑.",
-        },
-        {
-          q: "The number of sigma and pi bonds in benzene is:",
-          opts: ["6σ, 3π", "12σ, 3π", "6σ, 6π", "12σ, 6π"],
-          ans: 1,
-          hint: "Benzene: 6 C-C σ + 6 C-H σ = 12σ; 3 delocalized π bonds.",
-        },
-        {
-          q: "Bauxite ore is concentrated by:",
-          opts: [
-            "Calcination",
-            "Leaching",
-            "Gravity separation",
-            "Froth floatation",
-          ],
-          ans: 1,
-          hint: "Bauxite (Al₂O₃·2H₂O) purified by Bayer's process (leaching with NaOH).",
-        },
-        {
-          q: "The incomplete period in periodic table is:",
-          opts: ["4th", "5th", "6th", "7th"],
-          ans: 3,
-          hint: "7th period is incomplete (ongoing discoveries of superheavy elements).",
-        },
-        {
-          q: "The oxidation number of Fe in K₃[Fe(CN)₆] is:",
-          opts: ["+2", "+3", "+4", "+1"],
-          ans: 1,
-          hint: "K=+1 ×3=+3; CN=-1 ×6=-6; Fe must be +3 to balance: +3+3-6=0.",
-        },
-        {
-          q: "The compound that contains both ionic and covalent bonds is:",
-          opts: ["CH₄", "H₂", "KCN", "KCl"],
-          ans: 2,
-          hint: "KCN: K⁺[C≡N]⁻ — ionic K⁺...CN⁻ and covalent C≡N triple bond.",
-        },
-        {
-          q: "Which compound is assigned octane number 100?",
-          opts: ["iso-octane", "n-octane", "n-heptane", "n-nonane"],
-          ans: 0,
-          hint: "iso-octane (2,2,4-trimethylpentane) = 100; n-heptane = 0.",
-        },
-        {
-          q: "Alkali metals can be extracted from their salts by:",
-          opts: [
-            "Electrolysis of fused halides",
-            "Reduction with carbon",
-            "Reduction with aluminium",
-            "Electrolysis of aqueous solution of their halides",
-          ],
-          ans: 0,
-          hint: "Alkali metals are highly reactive; extracted by electrolysis of molten (fused) halides.",
-        },
-        {
-          q: "IUPAC name of CH₂=CH-CH₂-CH₂-OH is:",
-          opts: [
-            "Butanol",
-            "But-3-en-1-ol",
-            "But-1-en-4-ol",
-            "4-Hydroxybut-1-ene",
-          ],
-          ans: 1,
-          hint: "4-carbon chain, double bond at C3, -OH at C1 → but-3-en-1-ol. Lowest locant for -OH.",
-        },
-        {
-          q: "A radioactive isotope of hydrogen is:",
-          opts: ["Tritium", "Deuterium", "Protium", "H₂"],
-          ans: 0,
-          hint: "Tritium (³H) is radioactive (β-emitter, half-life ~12.3 years).",
-        },
-        {
-          q: "Tetrabromoethane on heating with zinc gives:",
-          opts: ["Ethyl bromide", "Ethane", "Ethyne", "Ethene"],
-          ans: 2,
-          hint: "Dehalogenation: C₂H₂Br₄ + 2Zn → C₂H₂ (ethyne) + 2ZnBr₂.",
-        },
-        {
-          q: "White phosphorus reacts with caustic alkali to give:",
-          opts: ["P₂O₅", "Na₃P", "PH₃", "H₃PO₄"],
-          ans: 2,
-          hint: "P₄ + 3NaOH + 3H₂O → PH₃ (phosphine) + 3NaH₂PO₂.",
-        },
-        {
-          q: "How many pi-electrons are present in benzene?",
-          opts: ["3", "6", "8", "12"],
-          ans: 1,
-          hint: "6 π-electrons (each double bond contributes 2; 3×2=6 delocalized).",
-        },
-        {
-          q: "The formula of bleaching powder is:",
-          opts: ["CaCl₂", "CaOCl₂", "Ca(OCl)₂", "Ca(ClO₃)₂"],
-          ans: 1,
-          hint: "Bleaching powder = CaOCl₂ (calcium oxychloride), made from Cl₂+Ca(OH)₂.",
-        },
-        {
-          q: "Paste of lime in water is called:",
-          opts: ["Lime water", "Lime light", "Milk of lime", "Slaked lime"],
-          ans: 2,
-          hint: "Milk of lime = suspension of Ca(OH)₂ in water. Lime water = clear solution.",
-        },
-        {
-          q: "Weight of one molecule of CaCO₃ is:",
-          opts: ["1.26×10⁻²³g", "1.66×10⁻²²g", "1.66×10⁻²⁴g", "1.5×10⁻²³g"],
-          ans: 1,
-          hint: "Molar mass=100g/mol; 1 molecule=100/6.023×10²³=1.66×10⁻²²g.",
-        },
-        {
-          q: "Structure of NaCl crystal is:",
-          opts: [
-            "Body centered cubic",
-            "Face centered cubic",
-            "Simple cube",
-            "Face centered orthogonal",
-          ],
-          ans: 1,
-          hint: "NaCl = FCC lattice (both Na⁺ & Cl⁻ form interpenetrating FCC).",
-        },
-      ];
-
-      // --- DOM refs ---
-      const quizContainer = document.getElementById("quizContainer");
-      const scoreScreen = document.getElementById("scoreScreen");
-      const questionText = document.getElementById("questionText");
-      const optionsGrid = document.getElementById("optionsGrid");
-      const qNumber = document.getElementById("qNumber");
-      const qProgressFill = document.getElementById("qProgressFill");
-      const qTimer = document.getElementById("qTimer");
-      const toast = document.getElementById("toast");
-      const totalXPDisp = document.getElementById("totalXP");
-      const streakDisp = document.getElementById("streakCount");
-      const accuracyDisp = document.getElementById("accuracyDisplay");
-      const questionsDoneDisp = document.getElementById("questionsDone");
-      const skipBtn = document.getElementById("skipBtn");
-
-      // --- Update stats ---
-      function updateStats() {
-        totalXPDisp.textContent = totalXP;
-        streakDisp.textContent = streak;
-        accuracyDisp.textContent =
-          totalAttempted > 0
-            ? Math.round((correctCount / totalAttempted) * 100) + "%"
-            : "0%";
-        questionsDoneDisp.textContent = totalAttempted + "/50";
-        localStorage.setItem("chemcrash_xp", totalXP);
-        localStorage.setItem(
-          "chemcrash_bestStreak",
-          Math.max(bestStreak, streak),
-        );
-      }
-
-      // --- Toast ---
-      function showToast(msg, type) {
-        toast.textContent = msg;
-        toast.className = "feedback-toast " + type;
-        toast.style.display = "block";
-        toast.style.animation = "none";
-        toast.offsetHeight;
-        toast.style.animation =
-          "toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), toastOut 0.3s 1.5s ease forwards";
-        setTimeout(() => {
-          toast.style.display = "none";
-        }, 1800);
-      }
-
-      // --- Confetti ---
-      function spawnConfetti() {
-        const colors = [
-          "#ffd700",
-          "#ff6b9d",
-          "#00d2ff",
-          "#00e676",
-          "#6c5ce7",
-          "#ffa502",
-          "#fff",
-          "#ff4757",
-        ];
-        for (let i = 0; i < 60; i++) {
-          const piece = document.createElement("div");
-          piece.className = "confetti-piece";
-          piece.style.left = Math.random() * 100 + "%";
-          piece.style.top = -(Math.random() * 40 + 10) + "px";
-          piece.style.width = piece.style.height =
-            Math.random() * 12 + 6 + "px";
-          piece.style.backgroundColor =
-            colors[Math.floor(Math.random() * colors.length)];
-          piece.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
-          piece.style.animationDuration = Math.random() * 2 + 1.5 + "s";
-          document.body.appendChild(piece);
-          setTimeout(() => piece.remove(), 3500);
-        }
-      }
-
-      // --- Shuffle array ---
-      function shuffle(arr) {
-        const a = [...arr];
-        for (let i = a.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [a[i], a[j]] = [a[j], a[i]];
-        }
-        return a;
-      }
-
-      // --- Get questions for round ---
-      let roundQuestions = [];
-      function prepareRound() {
-        roundQuestions = shuffle(allQuestions).slice(0, questionsPerRound);
-        currentQIndex = 0;
-        correctCount = 0;
-        totalAttempted = 0;
-        streak = 0;
-        quizActive = true;
-        scoreScreen.style.display = "none";
-        quizContainer.style.display = "block";
-        skipBtn.style.display = "inline-block";
-        updateStats();
-        renderQuestion();
-      }
-
-      // --- Render question ---
-      function renderQuestion() {
-        if (currentQIndex >= roundQuestions.length) {
-          endQuiz();
-          return;
-        }
-        clearInterval(timerInterval);
-        timeLeft = 20;
-        qTimer.textContent = "⏱ " + timeLeft + "s";
-        qTimer.classList.remove("urgent");
-        quizContainer.classList.remove("correct-flash", "wrong-flash");
-        const q = roundQuestions[currentQIndex];
-        questionText.textContent = q.q;
-        qNumber.textContent =
-          "Q " + (currentQIndex + 1) + "/" + roundQuestions.length;
-        qProgressFill.style.width =
-          (currentQIndex / roundQuestions.length) * 100 + "%";
-        const shuffledOpts = shuffle(
-          q.opts.map((o, i) => ({ text: o, origIndex: i })),
-        );
-        optionsGrid.innerHTML = "";
-        shuffledOpts.forEach((opt) => {
-          const btn = document.createElement("button");
-          btn.className = "option-btn";
-          btn.textContent = opt.text;
-          btn.addEventListener("click", () => selectAnswer(opt.origIndex, btn));
-          optionsGrid.appendChild(btn);
-        });
-        skipBtn.style.display = "inline-block";
-        startTimer();
-      }
-
-      function startTimer() {
-        clearInterval(timerInterval);
-        timeLeft = 20;
-        qTimer.textContent = "⏱ " + timeLeft + "s";
-        qTimer.classList.remove("urgent");
-        timerInterval = setInterval(() => {
-          timeLeft--;
-          qTimer.textContent = "⏱ " + timeLeft + "s";
-          if (timeLeft <= 5) qTimer.classList.add("urgent");
-          if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            autoSkip();
-          }
-        }, 1000);
-      }
-
-      function autoSkip() {
-        const q = roundQuestions[currentQIndex];
-        totalAttempted++;
-        streak = 0;
-        showToast("⏰ Time's up! Answer: " + q.opts[q.ans], "error");
-        highlightCorrectAnswer();
-        lockAllOptions();
-        updateStats();
-        setTimeout(() => {
-          currentQIndex++;
-          renderQuestion();
-        }, 1600);
-      }
-
-      function selectAnswer(chosenIndex, clickedBtn) {
-        if (!quizActive) return;
-        clearInterval(timerInterval);
-        quizActive = false;
-        const q = roundQuestions[currentQIndex];
-        totalAttempted++;
-        const isCorrect = chosenIndex === q.ans;
-        if (isCorrect) {
-          correctCount++;
-          streak++;
-          if (streak > bestStreak) bestStreak = streak;
-          totalXP += 10 + (streak >= 5 ? 15 : streak >= 3 ? 8 : 0);
-          clickedBtn.classList.add("correct");
-          quizContainer.classList.add("correct-flash");
-          showToast(
-            "✅ Correct! +" +
-              (10 + (streak >= 5 ? 15 : streak >= 3 ? 8 : 0)) +
-              " XP 🔥 Streak: " +
-              streak,
-            "success",
-          );
-          if (streak >= 5) spawnConfetti();
-        } else {
-          streak = 0;
-          clickedBtn.classList.add("wrong");
-          quizContainer.classList.add("wrong-flash");
-          showToast("❌ Nope! Correct: " + q.opts[q.ans], "error");
-          highlightCorrectAnswer();
-        }
-        lockAllOptions();
-        updateStats();
-        setTimeout(() => {
-          quizActive = true;
-          quizContainer.classList.remove("correct-flash", "wrong-flash");
-          currentQIndex++;
-          renderQuestion();
-        }, 1600);
-      }
-
-      function highlightCorrectAnswer() {
-        const q = roundQuestions[currentQIndex];
-        const btns = optionsGrid.querySelectorAll(".option-btn");
-        btns.forEach((b) => {
-          if (b.textContent === q.opts[q.ans]) b.classList.add("correct");
-        });
-      }
-
-      function lockAllOptions() {
-        const btns = optionsGrid.querySelectorAll(".option-btn");
-        btns.forEach((b) => b.classList.add("locked"));
-        skipBtn.style.display = "none";
-      }
-
-      function endQuiz() {
-        clearInterval(timerInterval);
-        quizActive = false;
-        quizContainer.style.display = "none";
-        scoreScreen.style.display = "block";
-        skipBtn.style.display = "none";
-        const score = correctCount;
-        const total = roundQuestions.length;
-        const pct = Math.round((score / total) * 100);
-        document.getElementById("scoreNumber").textContent =
-          score + "/" + total;
-        let emoji, msg;
-        if (pct >= 90) {
-          emoji = "🏆";
-          msg = "ABSOLUTE LEGEND! You're ready for 70+ marks!";
-        } else if (pct >= 75) {
-          emoji = "🎉";
-          msg = "Great job! 55+ marks totally achievable!";
-        } else if (pct >= 60) {
-          emoji = "💪";
-          msg = "Solid effort! Keep revising the cheat sheet!";
-        } else if (pct >= 40) {
-          emoji = "📚";
-          msg = "Getting there! Focus on the red-highlighted topics.";
-        } else {
-          emoji = "🔬";
-          msg =
-            "No worries! Use the flash cards and cheat sheet — you've got this!";
-        }
-        document.getElementById("scoreEmoji").textContent = emoji;
-        document.getElementById("scoreMessage").textContent = msg;
-        if (pct >= 75) spawnConfetti();
-        qProgressFill.style.width = "100%";
-        updateStats();
-      }
-
-      function restartQuiz() {
-        clearInterval(timerInterval);
-        quizActive = true;
-        scoreScreen.style.display = "none";
-        quizContainer.style.display = "block";
-        prepareRound();
-      }
-
-      function skipQuestion() {
-        if (!quizActive) return;
-        clearInterval(timerInterval);
-        const q = roundQuestions[currentQIndex];
-        totalAttempted++;
-        streak = 0;
-        highlightCorrectAnswer();
-        lockAllOptions();
-        showToast("⏭ Skipped! Answer: " + q.opts[q.ans], "error");
-        updateStats();
-        setTimeout(() => {
-          quizActive = true;
-          currentQIndex++;
-          renderQuestion();
-        }, 1200);
-      }
-      skipBtn.addEventListener("click", skipQuestion);
-
-      // --- TAB SWITCHING ---
-      const tabBtns = document.querySelectorAll(".tab-btn");
-      const panels = document.querySelectorAll(".panel");
-      tabBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          tabBtns.forEach((b) => b.classList.remove("active"));
-          btn.classList.add("active");
-          const tabId = btn.dataset.tab;
-          panels.forEach((p) => p.classList.remove("active"));
-          document.getElementById("panel-" + tabId).classList.add("active");
-          if (
-            tabId === "quiz" &&
-            !quizActive &&
-            scoreScreen.style.display === "none"
-          ) {
-            restartQuiz();
-          }
-        });
-      });
-
-      // --- FLASHCARDS ---
-      const flashcardData = [
-        {
-          front: "Graham's Law of Diffusion",
-          back: "Rate ∝ 1/√M<br><br>r₁/r₂ = √(M₂/M₁)<br>NH₃ (17) fastest; CO₂ (44) slower.",
-        },
-        {
-          front: "Kp-Kc Relationship",
-          back: "Kp = Kc(RT)^Δn<br>Δn = moles(gaseous products) - moles(gaseous reactants)<br>If Δn=0, Kp=Kc.",
-        },
-        {
-          front: "Faraday's 1st Law",
-          back: "m ∝ Q<br>m = Z × I × t<br>Z = E/96500 (E=equivalent mass)<br>1 Faraday = 96500 C.",
-        },
-        {
-          front: "Hückel's Rule",
-          back: "Aromatic if:<br>1. Planar cyclic<br>2. (4n+2) π electrons<br>Benzene: n=1, 6π e⁻ ✅<br>Cyclobutadiene: 4π e⁻ ❌",
-        },
-        {
-          front: "Ozonolysis of Propene",
-          back: "CH₃-CH=CH₂ + O₃ →<br>CH₃CHO (acetaldehyde) + HCHO (formaldehyde)<br>X=Propene, Y=Ethanal, Z=Methanal",
-        },
-        {
-          front: "Contact Process (H₂SO₄)",
-          back: "1. S+O₂→SO₂<br>2. SO₂+O₂⇌SO₃ (V₂O₅, 450°C)<br>3. SO₃+H₂SO₄→oleum<br>4. Oleum+H₂O→H₂SO₄",
-        },
-        {
-          front: "Solvay Process (Na₂CO₃)",
-          back: "NaCl+NH₃+CO₂+H₂O→NaHCO₃+NH₄Cl<br>2NaHCO₃→Na₂CO₃+CO₂+H₂O<br>Limestone→CaO+CO₂; CaO+H₂O→Ca(OH)₂",
-        },
-        {
-          front: "Haber's Process (NH₃)",
-          back: "N₂+3H₂⇌2NH₃+heat<br>Conditions: 200-300 atm, 450-500°C, Fe catalyst<br>Le Chatelier: High P, moderate T.",
-        },
-        {
-          front: "Amphoteric Oxides",
-          back: "React with BOTH acids & bases:<br>ZnO, Al₂O₃, BeO, PbO<br>ZnO+2HCl→ZnCl₂+H₂O<br>ZnO+2NaOH→Na₂ZnO₂+H₂O",
-        },
-        {
-          front: "IUPAC Priority",
-          back: "-OH > -CHO > -COOH > double bond > triple bond<br>CH₂=CH-CH₂-CH₂-OH = but-3-en-1-ol<br>Lowest number to -OH.",
-        },
-        {
-          front: "Sigma vs Pi Bonds",
-          back: "σ: head-on overlap, stronger, free rotation<br>π: sideways overlap, weaker, no rotation<br>Benzene: 12σ + 3π bonds",
-        },
-        {
-          front: "Markovnikov's Rule",
-          back: "H adds to C with MORE H atoms.<br>CH₃-CH=CH₂ + HBr → CH₃-CHBr-CH₃ (major)<br>Peroxide effect reverses it (Anti-Markovnikov).",
-        },
-        {
-          front: "Charles' Law",
-          back: "V ∝ T (at constant P)<br>V₁/T₁ = V₂/T₂<br>Absolute zero = -273.15°C = 0K<br>At 0K, volume theoretically becomes zero.",
-        },
-        {
-          front: "Limiting Reactant",
-          back: "Reactant that gets consumed FIRST.<br>Find moles of each; divide by coefficient.<br>Smallest value = limiting.<br>Excess = initial - consumed.",
-        },
-        {
-          front: "Oxidation Numbers (Key)",
-          back: "Fe in K₃[Fe(CN)₆] = +3<br>S in H₂S₂O₈ = +6<br>O = -2 (except peroxides=-1)<br>H = +1 (except hydrides=-1)<br>Sum = charge of species.",
-        },
-      ];
-      const cardsGrid = document.getElementById("cardsGrid");
-      flashcardData.forEach((card) => {
-        const flipCard = document.createElement("div");
-        flipCard.className = "flip-card";
-        flipCard.innerHTML = `
-            <div class="flip-card-inner">
-              <div class="flip-card-front">${card.front}<span class="flip-hint">👆 tap to reveal</span></div>
-              <div class="flip-card-back">${card.back}</div>
-            </div>`;
-        flipCard.addEventListener("click", () =>
-          flipCard.classList.toggle("flipped"),
-        );
-        cardsGrid.appendChild(flipCard);
-      });
-
-      // --- CHEAT SHEET ---
-      const cheatContent = document.getElementById("cheatContent");
-      const cheatSections = [
-        {
-          title: "🔢 Must-Know Formulas",
-          items: [
-            "<strong>Mole:</strong> n = mass/molar mass = N/NA",
-            "<strong>Graham:</strong> r₁/r₂ = √(M₂/M₁)",
-            "<strong>Charles:</strong> V₁/T₁ = V₂/T₂",
-            "<strong>Ideal Gas:</strong> PV = nRT (R=0.0821 L·atm/mol·K)",
-            "<strong>Kp-Kc:</strong> Kp = Kc(RT)^Δn",
-            "<strong>Faraday:</strong> m = Z·I·t, Z = E/96500",
-            "<strong>MW:</strong> Molecular weight = 2 × Vapour Density",
-            "<strong>NTP Volume:</strong> 1 mole gas = 22.4 L at NTP",
-          ],
-        },
-        {
-          title: "🧪 Key Reactions to MEMORIZE",
-          items: [
-            "<strong>Ozonolysis:</strong> CH₃-CH=CH₂ → CH₃CHO + HCHO",
-            "<strong>Wurtz:</strong> 2CH₃-CHBr-CH₃ + 2Na → (CH₃)₂CH-CH(CH₃)₂",
-            "<strong>Cl₂+hot NaOH:</strong> 3Cl₂+6NaOH→5NaCl+NaClO₃+3H₂O",
-            "<strong>White P+NaOH:</strong> P₄+3NaOH+3H₂O→PH₃+3NaH₂PO₂",
-            "<strong>Fehling's test:</strong> R-CHO + 2Cu²⁺ → Cu₂O↓(red)",
-            "<strong>Dehalogenation:</strong> C₂H₂Br₄+2Zn→C₂H₂+2ZnBr₂",
-          ],
-        },
-        {
-          title: "🎯 IUPAC Naming Cheats",
-          items: [
-            "<strong>(CH₃)₂C=C(CH₃)₂</strong> = 2,3-dimethylbut-2-ene",
-            "<strong>CH₂=CH-CH₂-CH₂-OH</strong> = but-3-en-1-ol",
-            "<strong>(CH₃)₂CHOCH₃</strong> = 2-methoxypropane",
-            "<strong>CH₂=CH-CH(CH₃)₂</strong> = 3-methylbut-1-ene",
-          ],
-        },
-        {
-          title: "⚠️ Common Confusions",
-          items: [
-            "<strong>Amphoteric:</strong> ZnO, Al₂O₃ (NOT Na₂O, CO, SO₂)",
-            "<strong>Inflammable:</strong> PH₃ (phosphine) — burns spontaneously",
-            "<strong>Radioactive H:</strong> Tritium (³H) — NOT deuterium",
-            "<strong>Octane 100:</strong> iso-octane; <strong>Octane 0:</strong> n-heptane",
-            "<strong>Microelements:</strong> Cu, Zn, I; <strong>Macro:</strong> Mg, Na, Cl",
-          ],
-        },
-      ];
-      cheatSections.forEach((sec) => {
-        const div = document.createElement("div");
-        div.className = "cheat-section";
-        div.innerHTML =
-          "<h3>" +
-          sec.title +
-          "</h3>" +
-          sec.items
-            .map((i) => '<div class="cheat-item">' + i + "</div>")
-            .join("");
-        cheatContent.appendChild(div);
-      });
-
-      // --- MODEL PAPER ---
-      const modelPaperContent = document.getElementById("modelPaperContent");
-      modelPaperContent.innerHTML = `
-        <h4 style="color:#ffd700;">GROUP 'A' — MCQs [11×1=11]</h4>
-        <ol style="padding-left:20px;line-height:2;">
-          <li>Number of molecules in 4.4g CO₂? <em>(6.023×10²²)</em></li>
-          <li>Hybridization of carbon in graphite? <em>(sp²)</em></li>
-          <li>Fastest diffusing gas? <em>(NH₃)</em></li>
-          <li>IUPAC of (CH₃)₂C=C(CH₃)₂? <em>(2,3-dimethylbut-2-ene)</em></li>
-          <li>Alkali metal extraction method? <em>(Electrolysis of fused halides)</em></li>
-          <li>Amphoteric oxide? <em>(ZnO / Al₂O₃)</em></li>
-          <li>Oxidation number of Fe in K₃[Fe(CN)₆]? <em>(+3)</em></li>
-          <li>Sigma & pi bonds in benzene? <em>(12σ, 3π)</em></li>
-          <li>Octane number 100? <em>(iso-octane)</em></li>
-          <li>Shape of orbital — which quantum number? <em>(Azimuthal)</em></li>
-          <li>Cl₂ + hot conc NaOH → ? <em>(NaClO₃ + NaCl)</em></li>
-        </ol>
-        <hr style="border-color:rgba(255,255,255,0.1);margin:16px 0;">
-        <h4 style="color:#00d2ff;">GROUP 'B' — Short Questions [8×5=40]</h4>
-        <p><strong>Key topics:</strong> Charles' Law + CO₂ volume calc | Redox balancing (Zn+HNO₃) | Kp-Kc derivation | Faraday's 1st Law | Graham's diffusion (CₙH₂ₙ₊₂ vs SO₂) | Ostwald's process principle | Hückel's rule | Lewis structures + geometry | Nascent hydrogen reactions | Homologous series + octane number.</p>
-        <hr style="border-color:rgba(255,255,255,0.1);margin:16px 0;">
-        <h4 style="color:#ff6b9d;">GROUP 'C' — Long Questions [3×8=24]</h4>
-        <p><strong>Q11:</strong> Contact Process (H₂SO₄) — 4 steps, flow sheet, dehydrating nature, SO₄²⁻ test.</p>
-        <p><strong>Q12:</strong> Stoichiometry — 20g marble (90% CaCO₃) + 50g HCl (36.5%) → limiting reactant, excess moles, CO₂ volume, NaOH mass to absorb CO₂.</p>
-        <p><strong>Q13:</strong> Ozonolysis: alkene X → Y(C₂H₄O) + Z(CH₂O). Identify, IUPAC, HBr addition, prep from 1-bromopropane, unsaturation test, convert to propane.</p>
-        <p><em>OR:</em> CO₂ polarity, Diamond vs Graphite, Passivity of Iron, Micro/Macronutrients.</p>
-      `;
-
-      // --- EXAM TIPS ---
-      const tipsContent = document.getElementById("tipsContent");
-      tipsContent.innerHTML = `
-        <div class="cheat-section" style="border-left:4px solid #ffd700;">
-          <h3>🧠 The "Last 24 Hours" Strategy</h3>
-          <div class="cheat-item">✅ <strong>Sleep is NON-NEGOTIABLE:</strong> 6-7 hours minimum. Your brain consolidates memory during sleep. Pulling an all-nighter drops performance by 30-40%.</div>
-          <div class="cheat-item">✅ <strong>Active Recall > Reading:</strong> Close the book and say it out loud. Quiz yourself. Reading passively tricks your brain into thinking you know it.</div>
-          <div class="cheat-item">✅ <strong>Teach a wall:</strong> Explain concepts to an imaginary person. If you can't explain it simply, you don't know it yet.</div>
-        </div>
-        <div class="cheat-section" style="border-left:4px solid #00d2ff;margin-top:12px;">
-          <h3>🎯 Marks Hunting Strategy (Target: 55+)</h3>
-          <div class="cheat-item">📌 <strong>MCQs (11 marks):</strong> Easy pickings. Do all 30 in this quiz 2-3 times. You'll memorize patterns. Aim for 9-10/11.</div>
-          <div class="cheat-item">📌 <strong>Short Questions (40 marks):</strong> 5 "sure-shot" topics = 25 marks minimum. Focus: Charles' Law, Redox balancing, Kp-Kc, Faraday's Law, Graham's diffusion.</div>
-          <div class="cheat-item">📌 <strong>Long Questions (24 marks):</strong> Flow sheet diagrams are FREE marks. Draw them neat. Contact/Solvay/Haber process = guaranteed question.</div>
-          <div class="cheat-item">📌 <strong>Partial marks:</strong> Even if you can't solve fully, write formulas, draw the flow chart, write the principle. NEB gives step marks.</div>
-        </div>
-        <div class="cheat-section" style="border-left:4px solid #ff6b9d;margin-top:12px;">
-          <h3>⚡ Exam Hall Playbook</h3>
-          <div class="cheat-item">1️⃣ <strong>First 5 mins:</strong> Scan entire paper. Mark "easy" questions. Start with what you know best.</div>
-          <div class="cheat-item">2️⃣ <strong>MCQs first:</strong> 15 minutes max. If stuck, eliminate 2 options, guess from remaining 2. Move on.</div>
-          <div class="cheat-item">3️⃣ <strong>Short answers:</strong> 80 minutes. Write point-wise. Underline keywords. Diagrams where possible.</div>
-          <div class="cheat-item">4️⃣ <strong>Long answers:</strong> 60 minutes. Flow sheets take 3-4 minutes to draw — DO THEM. They're worth 2-3 marks alone.</div>
-          <div class="cheat-item">5️⃣ <strong>Last 10 mins:</strong> Review. Check units (L, atm, K). Fill any blanks — NEVER leave a question unanswered.</div>
-        </div>
-        <div class="cheat-section" style="border-left:4px solid #00e676;margin-top:12px;">
-          <h3>💯 How 55 Marks Break Down</h3>
-          <div class="cheat-item">🎯 <strong>MCQs:</strong> 8-9 correct = <strong>8-9 marks</strong></div>
-          <div class="cheat-item">🎯 <strong>5 Short Qs:</strong> 3-4 done well (5 each) + 2 partial (3 each) = <strong>21-26 marks</strong></div>
-          <div class="cheat-item">🎯 <strong>3 Long Qs:</strong> 1 perfectly (7-8) + 2 partial (5-6 each) = <strong>17-20 marks</strong></div>
-          <div class="cheat-item" style="color:#ffd700;font-weight:700;">🔥 Total: 46-55 marks — RIGHT where you need to be!</div>
-        </div>
-      `;
-
-      // --- INIT ---
-      function init() {
-        updateStats();
-        prepareRound();
-      }
-      init();
-
-      // --- Keyboard shortcuts ---
-      document.addEventListener("keydown", (e) => {
-        if (!quizActive) return;
-        const keys = ["1", "2", "3", "4"];
-        const idx = keys.indexOf(e.key);
-        if (idx >= 0) {
-          const btns = optionsGrid.querySelectorAll(".option-btn");
-          if (btns[idx]) btns[idx].click();
-        }
-        if (e.key === "s" || e.key === "S") skipQuestion();
-      });
-
-      console.log(
-        "%c⚗️ ChemCrash 2083 Ready! %c| %c🎯 Target: 55+ marks %c| %c💪 You've got this!",
-        "color:#ffd700;font-size:1.2em;",
-        "",
-        "color:#00d2ff;",
-        "",
-        "color:#00e676;font-weight:bold;",
-      );
-      console.log(
-        "%c💡 Tip: Press 1-4 to select options, S to skip during quiz!",
-        "color:#ff6b9d;font-style:italic;",
-      );
-    </script>
-  </body>
+    <script src="js/app.js"></script>
+</body>
 </html>
