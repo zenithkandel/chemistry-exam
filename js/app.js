@@ -5,6 +5,9 @@ let correctCount = 0, totalAttempted = 0, currentQIndex = 0, quizActive = false;
 let timerInterval = null, timeLeft = 20;
 const questionsPerRound = 30;
 let roundQuestions = [];
+let isQuizPaused = false;
+let savedTimeLeft = 20;
+let quizTabLeft = false;
 
 function getEl(id) { return document.getElementById(id); }
 
