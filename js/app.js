@@ -9,6 +9,7 @@ let isQuizPaused = false;
 let savedTimeLeft = 20;
 let quizTabLeft = false;
 let completedTopics = JSON.parse(localStorage.getItem("chemcrash_completed") || "{}");
+let expandedUnits = JSON.parse(localStorage.getItem("chemcrash_expanded") || "{}");
 
 function getEl(id) { return document.getElementById(id); }
 
@@ -488,7 +489,7 @@ function renderSyllabus() {
       html += `<div class="syllabus-chapter ${isChapterComplete ? 'completed' : ''}">
         <div class="syllabus-chapter-header">
           <button class="chapter-check-btn ${isChapterComplete ? 'checked' : ''}" onclick="toggleChapter('${chapterKey}', event)" title="Mark as complete">
-            <i class="fa-light ${isChapterComplete ? 'fa-check' : 'fa-circle'}"></i>
+            <i class="fa-regular ${isChapterComplete ? 'fa-check-circle' : 'fa-circle'}"></i>
           </button>
           <div class="syllabus-chapter-name">${chapter.chapter_name}</div>
           <div class="syllabus-chapter-weight">${chapter.estimated_exam_weight}</div>
@@ -501,7 +502,7 @@ function renderSyllabus() {
         html += `<div class="syllabus-topic ${isTopicComplete ? 'completed' : ''}">
           <div class="syllabus-topic-header">
             <button class="topic-check-btn ${isTopicComplete ? 'checked' : ''}" onclick="toggleTopic('${topicKey}', event)" title="Mark as complete">
-              <i class="fa-light ${isTopicComplete ? 'fa-check' : 'fa-circle'}"></i>
+              <i class="fa-regular ${isTopicComplete ? 'fa-check-circle' : 'fa-circle'}"></i>
             </button>
             <div class="syllabus-topic-name">${topic.topic_name}</div>
             <span class="syllabus-priority ${topic.priority === 'High' || topic.priority === 'Very High' ? 'high' : 'medium'}">${topic.priority}</span>
@@ -535,6 +536,7 @@ function toggleUnit(idx) {
 
 function toggleChapter(key, e) {
   e.stopPropagation();
+  e.preventDefault();
   const wasComplete = completedTopics[key] === true;
   if (wasComplete) {
     delete completedTopics[key];
@@ -547,6 +549,7 @@ function toggleChapter(key, e) {
 
 function toggleTopic(key, e) {
   e.stopPropagation();
+  e.preventDefault();
   const wasComplete = completedTopics[key] === true;
   if (wasComplete) {
     delete completedTopics[key];

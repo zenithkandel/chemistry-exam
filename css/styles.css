@@ -473,16 +473,16 @@ i.fa { font-size: 20px; line-height: 1; }
   flex-shrink: 0;
   transition: var(--transition);
 }
-.chapter-check-btn i.fa, .topic-check-btn i.fa {
+.chapter-check-btn i.fa-regular, .topic-check-btn i.fa-regular {
   font-size: 18px;
   color: var(--text3);
   transition: var(--transition);
 }
-.chapter-check-btn:hover i.fa, .topic-check-btn:hover i.fa {
+.chapter-check-btn:hover i.fa-regular, .topic-check-btn:hover i.fa-regular {
   color: var(--success);
   transform: scale(1.1);
 }
-.chapter-check-btn.checked i.fa, .topic-check-btn.checked i.fa {
+.chapter-check-btn.checked i.fa-regular, .topic-check-btn.checked i.fa-regular {
   color: var(--success);
 }
 
