@@ -427,6 +427,11 @@ i.fa { font-size: 20px; line-height: 1; }
 .tip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text3); margin-top: 7px; flex-shrink: 0; }
 
 .syllabus-page { padding: 0; }
+.syllabus-stats { display: flex; align-items: center; gap: 12px; }
+.syllabus-progress-bar { width: 120px; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+.syllabus-progress-fill { height: 100%; background: var(--success); border-radius: 4px; transition: width 0.3s ease; }
+.syllabus-progress-text { font-size: 13px; color: var(--text2); font-weight: 500; white-space: nowrap; }
+
 .syllabus-unit { margin-bottom: 20px; }
 .syllabus-unit-header { padding: 20px 24px; background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; cursor: pointer; transition: var(--transition); }
 .syllabus-unit-header:hover { background: var(--surface-hover); }
@@ -438,19 +443,48 @@ i.fa { font-size: 20px; line-height: 1; }
 .syllabus-badge.weight { background: #e0e7ff; color: #4f46e5; }
 .syllabus-chapters { display: none; }
 .syllabus-chapters.show { display: block; }
-.syllabus-chapter { padding: 16px 20px; background: var(--surface); border-radius: var(--radius-sm); border: 1px solid var(--border-light); margin-bottom: 8px; }
-.syllabus-chapter-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.syllabus-chapter { padding: 16px 20px; background: var(--surface); border-radius: var(--radius-sm); border: 1px solid var(--border-light); margin-bottom: 8px; transition: var(--transition); }
+.syllabus-chapter.completed { border-color: var(--success); background: var(--success-light); }
+.syllabus-chapter-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
 .syllabus-chapter-name { font-size: 14px; font-weight: 600; color: var(--text); flex: 1; }
 .syllabus-chapter-weight { font-size: 12px; color: var(--text3); white-space: nowrap; }
 .syllabus-topics { display: flex; flex-direction: column; gap: 8px; }
-.syllabus-topic { padding: 10px 14px; background: var(--bg); border-radius: var(--radius-xs); }
-.syllabus-topic-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-.syllabus-topic-name { font-size: 13px; font-weight: 500; color: var(--text); }
+.syllabus-topic { padding: 10px 14px; background: var(--bg); border-radius: var(--radius-xs); transition: var(--transition); }
+.syllabus-topic.completed { background: var(--success-light); }
+.syllabus-topic.completed .syllabus-topic-name { text-decoration: line-through; color: var(--success); }
+.syllabus-topic-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.syllabus-topic-name { font-size: 13px; font-weight: 500; color: var(--text); flex: 1; }
 .syllabus-priority { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
 .syllabus-priority.high { background: var(--error-light); color: var(--error); }
 .syllabus-priority.medium { background: var(--warning-light); color: var(--warning); }
 .syllabus-subtopics { font-size: 12px; color: var(--text3); padding-left: 12px; }
 .syllabus-subtopics li { margin-bottom: 2px; }
+
+.chapter-check-btn, .topic-check-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+.chapter-check-btn i.fa, .topic-check-btn i.fa {
+  font-size: 18px;
+  color: var(--text3);
+  transition: var(--transition);
+}
+.chapter-check-btn:hover i.fa, .topic-check-btn:hover i.fa {
+  color: var(--success);
+  transform: scale(1.1);
+}
+.chapter-check-btn.checked i.fa, .topic-check-btn.checked i.fa {
+  color: var(--success);
+}
 
 .practicals-content { padding: 24px; }
 .practicals-content h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 16px; margin-top: 24px; }

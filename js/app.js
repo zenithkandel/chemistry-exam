@@ -8,6 +8,7 @@ let roundQuestions = [];
 let isQuizPaused = false;
 let savedTimeLeft = 20;
 let quizTabLeft = false;
+let completedTopics = JSON.parse(localStorage.getItem("chemcrash_completed") || "{}");
 
 function getEl(id) { return document.getElementById(id); }
 
@@ -45,6 +46,13 @@ function resetStats() {
   localStorage.removeItem("chemcrash_bestStreak");
   updateStats();
   showToast("Profile reset successfully!", "success");
+}
+
+function resetSyllabus() {
+  completedTopics = {};
+  localStorage.removeItem("chemcrash_completed");
+  renderSyllabus();
+  showToast("Syllabus progress cleared!", "success");
 }
 
 function showToast(msg, type) {
@@ -452,9 +460,17 @@ function renderFlashcards() {
 function renderSyllabus() {
   const units = syllabusData.syllabus || [];
   let html = `<div class="card">
-    <div class="card-header"><div><div class="card-title">Complete Syllabus</div><div class="card-subtitle">NEB Grade 11 Chemistry - All units and chapters</div></div></div>
+    <div class="card-header">
+      <div>
+        <div class="card-title">Complete Syllabus</div>
+        <div class="card-subtitle">NEB Grade 11 Chemistry - All units and chapters</div>
+      </div>
+      <div class="syllabus-stats" id="syllabusStats">
+        <span class="syllabus-progress-text"></span>
+      </div>
+    </div>
     <div class="syllabus-page">`;
-
+  
   units.forEach((unit, uIdx) => {
     html += `<div class="syllabus-unit">
       <div class="syllabus-unit-header" onclick="toggleUnit(${uIdx})">
@@ -465,45 +481,107 @@ function renderSyllabus() {
         </div>
       </div>
       <div class="syllabus-chapters" id="unit-${uIdx}">`;
-
-    unit.chapters.forEach(chapter => {
-      html += `<div class="syllabus-chapter">
+    
+    unit.chapters.forEach(chapter, chIdx) => {
+      const chapterKey = `unit${uIdx}-ch${chIdx}`;
+      const isChapterComplete = completedTopics[chapterKey] === true;
+      html += `<div class="syllabus-chapter ${isChapterComplete ? 'completed' : ''}">
         <div class="syllabus-chapter-header">
+          <button class="chapter-check-btn ${isChapterComplete ? 'checked' : ''}" onclick="toggleChapter('${chapterKey}', event)" title="Mark as complete">
+            <i class="fa-light ${isChapterComplete ? 'fa-check' : 'fa-circle'}"></i>
+          </button>
           <div class="syllabus-chapter-name">${chapter.chapter_name}</div>
           <div class="syllabus-chapter-weight">${chapter.estimated_exam_weight}</div>
         </div>
         <div class="syllabus-topics">`;
-
-      chapter.topics.forEach(topic => {
-        html += `<div class="syllabus-topic">
+      
+      chapter.topics.forEach((topic, topicIdx) => {
+        const topicKey = `unit${uIdx}-ch${chIdx}-topic${topicIdx}`;
+        const isTopicComplete = completedTopics[topicKey] === true;
+        html += `<div class="syllabus-topic ${isTopicComplete ? 'completed' : ''}">
           <div class="syllabus-topic-header">
+            <button class="topic-check-btn ${isTopicComplete ? 'checked' : ''}" onclick="toggleTopic('${topicKey}', event)" title="Mark as complete">
+              <i class="fa-light ${isTopicComplete ? 'fa-check' : 'fa-circle'}"></i>
+            </button>
             <div class="syllabus-topic-name">${topic.topic_name}</div>
             <span class="syllabus-priority ${topic.priority === 'High' || topic.priority === 'Very High' ? 'high' : 'medium'}">${topic.priority}</span>
           </div>
           ${topic.subtopics?.length ? `<ul class="syllabus-subtopics">${topic.subtopics.map(s => `<li>${s}</li>`).join('')}</ul>` : ''}
         </div>`;
       });
-
+      
       if (chapter.important_numericals?.length) {
         html += `<div class="syllabus-topic"><div class="syllabus-topic-header"><div class="syllabus-topic-name">Important Numericals</div></div><ul class="syllabus-subtopics">${chapter.important_numericals.map(n => `<li>${n}</li>`).join('')}</ul></div>`;
       }
       if (chapter.important_reactions?.length) {
         html += `<div class="syllabus-topic"><div class="syllabus-topic-header"><div class="syllabus-topic-name">Important Reactions</div></div><ul class="syllabus-subtopics">${chapter.important_reactions.map(r => `<li>${r}</li>`).join('')}</ul></div>`;
       }
-
+      
       html += `</div></div>`;
     });
-
+    
     html += `</div></div>`;
   });
-
+  
   html += `</div></div>`;
   getEl("mainContent").innerHTML = html;
+  updateSyllabusStats();
 }
 
 function toggleUnit(idx) {
   const el = getEl("unit-" + idx);
   if (el) el.classList.toggle("show");
+}
+
+function toggleChapter(key, e) {
+  e.stopPropagation();
+  const wasComplete = completedTopics[key] === true;
+  if (wasComplete) {
+    delete completedTopics[key];
+  } else {
+    completedTopics[key] = true;
+  }
+  localStorage.setItem("chemcrash_completed", JSON.stringify(completedTopics));
+  renderSyllabus();
+}
+
+function toggleTopic(key, e) {
+  e.stopPropagation();
+  const wasComplete = completedTopics[key] === true;
+  if (wasComplete) {
+    delete completedTopics[key];
+  } else {
+    completedTopics[key] = true;
+  }
+  localStorage.setItem("chemcrash_completed", JSON.stringify(completedTopics));
+  renderSyllabus();
+}
+
+function updateSyllabusStats() {
+  const statsEl = getEl("syllabusStats");
+  if (!statsEl || !syllabusData.syllabus) return;
+  
+  let totalTopics = 0;
+  let completedCount = 0;
+  
+  syllabusData.syllabus.forEach((unit, uIdx) => {
+    unit.chapters.forEach((chapter, chIdx) => {
+      const chapterKey = `unit${uIdx}-ch${chIdx}`;
+      if (completedTopics[chapterKey]) {
+        completedCount++;
+        totalTopics++;
+      } else {
+        chapter.topics.forEach((topic, topicIdx) => {
+          const topicKey = `unit${uIdx}-ch${chIdx}-topic${topicIdx}`;
+          totalTopics++;
+          if (completedTopics[topicKey]) completedCount++;
+        });
+      }
+    });
+  });
+  
+  const pct = totalTopics > 0 ? Math.round((completedCount / totalTopics) * 100) : 0;
+  statsEl.innerHTML = `<div class="syllabus-progress-bar"><div class="syllabus-progress-fill" style="width:${pct}%"></div></div><span class="syllabus-progress-text">${completedCount}/${totalTopics} completed</span>`;
 }
 
 function renderCheatsheet() {
@@ -585,7 +663,7 @@ function renderSettings() {
       <div class="card-header"><div><div class="card-title">Settings</div><div class="card-subtitle">Manage your profile and preferences</div></div></div>
       <div class="settings-content">
         <div class="settings-section">
-          <h3>Profile Stats</h3>
+          <h3><i class="fa-light fa-user"></i> Profile Stats</h3>
           <div class="settings-item">
             <div><div class="settings-item-label">Total XP</div><div class="settings-item-desc">${totalXP} points earned</div></div>
           </div>
@@ -597,27 +675,68 @@ function renderSettings() {
           </div>
         </div>
         <div class="settings-section">
-          <h3>Reset Profile</h3>
+          <h3><i class="fa-light fa-file-check"></i> Syllabus Progress</h3>
+          <div class="settings-item">
+            <div><div class="settings-item-label">Topics Completed</div><div class="settings-item-desc">${getSyllabusProgressText()}</div></div>
+          </div>
+          <button class="reset-btn" onclick="confirmResetSyllabus()"><i class="fa-light fa-arrows-counter-clockwise"></i> Reset Syllabus Progress</button>
+        </div>
+        <div class="settings-section">
+          <h3><i class="fa-light fa-trash"></i> Reset Profile</h3>
           <p style="font-size:13px;color:var(--text2);margin-bottom:12px;">This will reset all your stats including XP, streaks, and progress. This action cannot be undone.</p>
-          <button class="reset-btn" onclick="confirmReset()">Reset All Stats</button>
+          <button class="reset-btn" onclick="confirmReset()"><i class="fa-light fa-arrows-counter-clockwise"></i> Reset All Stats</button>
         </div>
       </div>
     </div>
     <div class="modal-overlay" id="resetModal">
       <div class="modal">
-        <h3>Reset Profile?</h3>
+        <h3><i class="fa-light fa-triangle-exclamation"></i> Reset Profile?</h3>
         <p>All your progress will be permanently deleted. Are you sure you want to continue?</p>
         <div class="modal-actions">
           <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
           <button class="btn btn-danger" onclick="doReset()">Yes, Reset</button>
         </div>
       </div>
+    </div>
+    <div class="modal-overlay" id="resetSyllabusModal">
+      <div class="modal">
+        <h3><i class="fa-light fa-triangle-exclamation"></i> Reset Syllabus Progress?</h3>
+        <p>All your chapter and topic completion marks will be cleared. This action cannot be undone.</p>
+        <div class="modal-actions">
+          <button class="btn btn-outline" onclick="closeSyllabusModal()">Cancel</button>
+          <button class="btn btn-danger" onclick="doResetSyllabus()">Yes, Reset</button>
+        </div>
+      </div>
     </div>`;
+}
+
+function getSyllabusProgressText() {
+  if (!syllabusData.syllabus) return "0/0 completed";
+  let totalTopics = 0, completedCount = 0;
+  syllabusData.syllabus.forEach((unit, uIdx) => {
+    unit.chapters.forEach((chapter, chIdx) => {
+      const chapterKey = `unit${uIdx}-ch${chIdx}`;
+      if (completedTopics[chapterKey]) {
+        completedCount++; totalTopics++;
+      } else {
+        chapter.topics.forEach((topic, topicIdx) => {
+          const topicKey = `unit${uIdx}-ch${chIdx}-topic${topicIdx}`;
+          totalTopics++;
+          if (completedTopics[topicKey]) completedCount++;
+        });
+      }
+    });
+  });
+  return `${completedCount}/${totalTopics} completed`;
 }
 
 function confirmReset() { getEl("resetModal")?.classList.add("show"); }
 function closeModal() { getEl("resetModal")?.classList.remove("show"); }
 function doReset() { closeModal(); resetStats(); }
+
+function confirmResetSyllabus() { getEl("resetSyllabusModal")?.classList.add("show"); }
+function closeSyllabusModal() { getEl("resetSyllabusModal")?.classList.remove("show"); }
+function doResetSyllabus() { closeSyllabusModal(); resetSyllabus(); }
 
 function performSearch(query) {
   const results = [];
