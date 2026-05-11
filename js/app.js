@@ -10,6 +10,7 @@ let savedTimeLeft = 20;
 let quizTabLeft = false;
 let completedTopics = JSON.parse(localStorage.getItem("chemcrash_completed") || "{}");
 let expandedUnits = JSON.parse(localStorage.getItem("chemcrash_expanded") || "{}");
+let scrollTarget = null;
 
 function getEl(id) { return document.getElementById(id); }
 
@@ -757,23 +758,8 @@ function closeSyllabusModal() { getEl("resetSyllabusModal")?.classList.remove("s
 function doResetSyllabus() { closeSyllabusModal(); resetSyllabus(); }
 
 function navigateToSyllabusEntry(unitIdx, chapterIdx) {
+  scrollTarget = unitIdx + "-" + chapterIdx;
   navigateTo("syllabus");
-  setTimeout(() => {
-    if (expandedUnits[unitIdx] !== true) {
-      expandedUnits[unitIdx] = true;
-      const unitEl = getEl("unit-" + unitIdx);
-      if (unitEl) unitEl.classList.add("show");
-      localStorage.setItem("chemcrash_expanded", JSON.stringify(expandedUnits));
-    }
-    setTimeout(() => {
-      const chapterEl = document.querySelector(`[data-chapter-idx="${unitIdx}-${chapterIdx}"]`);
-      if (chapterEl) {
-        chapterEl.scrollIntoView({ behavior: "smooth", block: "center" });
-        chapterEl.classList.add("syllabus-highlight");
-        setTimeout(() => chapterEl.classList.remove("syllabus-highlight"), 2000);
-      }
-    }, 100);
-  }, 50);
 }
 
 function performSearch(query) {
@@ -867,11 +853,19 @@ function init() {
       searchInput.addEventListener("input", (e) => {
         const results = performSearch(e.target.value);
         if (results.length > 0) {
-          searchResults.innerHTML = results.map(r => `<div class="search-result-item" ${r.type === "Syllabus" && r.unitIdx !== undefined ? `onclick="navigateToSyllabusEntry(${r.unitIdx}, ${r.chapterIdx});searchResults.classList.remove('show');"` : `onclick="navigateTo('${r.page}');searchResults.classList.remove('show');searchInput.value='';"`}>
-            <div class="result-section">${r.type}</div>
-            <div class="result-title">${r.title}</div>
-            ${r.sub ? `<div class="result-sub">${r.sub}</div>` : ''}
-          </div>`).join('');
+          searchResults.innerHTML = results.map(r => {
+            let onclick;
+            if (r.type === "Syllabus" && r.unitIdx !== undefined) {
+              onclick = `navigateToSyllabusEntry(${r.unitIdx}, ${r.chapterIdx});searchResults.classList.remove('show');searchInput.value='';`;
+            } else {
+              onclick = `navigateTo('${r.page}');searchResults.classList.remove('show');searchInput.value='';`;
+            }
+            return `<div class="search-result-item" onclick="${onclick}">
+              <div class="result-section">${r.type}</div>
+              <div class="result-title">${r.title}</div>
+              ${r.sub ? `<div class="result-sub">${r.sub}</div>` : ''}
+            </div>`;
+          }).join('');
           searchResults.classList.add("show");
         } else if (e.target.value.length >= 2) {
           searchResults.innerHTML = `<div class="no-results">No results found</div>`;
