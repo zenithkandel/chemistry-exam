@@ -672,6 +672,13 @@ function init() {
         if (btns[idx]) btns[idx].click();
       }
     });
+
+    window.addEventListener("blur", () => {
+      if (quizActive && currentQIndex < roundQuestions.length && !isQuizPaused) {
+        pauseQuiz();
+        quizTabLeft = true;
+      }
+    });
   });
 }
 

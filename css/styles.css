@@ -238,18 +238,19 @@ i.fa { font-size: 20px; line-height: 1; }
 .card-subtitle { font-size: 12px; color: var(--text3); margin-top: 2px; }
 .card-body { padding: 24px; }
 
-.quiz-panel { padding: 24px; position: relative; }
+.quiz-panel { padding: 24px; position: relative; min-height: 300px; }
 .quiz-panel .blur-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(4px);
-  border-radius: var(--radius-sm);
+  top: 64px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(6px);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
   display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 5;
+  z-index: 10;
 }
 .quiz-panel .blur-overlay.show { display: flex; }
 .quiz-panel .blur-overlay i.fa { font-size: 36px; color: var(--text3); margin-bottom: 12px; }
