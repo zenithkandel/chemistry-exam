@@ -531,6 +531,25 @@ function renderSyllabus() {
   html += `</div></div>`;
   getEl("mainContent").innerHTML = html;
   updateSyllabusStats();
+  
+  if (scrollTarget) {
+    const [uIdx, chIdx] = scrollTarget.split("-").map(Number);
+    const unitEl = getEl("unit-" + uIdx);
+    if (unitEl && !unitEl.classList.contains("show")) {
+      unitEl.classList.add("show");
+      expandedUnits[uIdx] = true;
+      localStorage.setItem("chemcrash_expanded", JSON.stringify(expandedUnits));
+    }
+    setTimeout(() => {
+      const chapterEl = document.querySelector(`[data-chapter-idx="${scrollTarget}"]`);
+      if (chapterEl) {
+        chapterEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        chapterEl.classList.add("syllabus-highlight");
+        setTimeout(() => chapterEl.classList.remove("syllabus-highlight"), 2000);
+      }
+      scrollTarget = null;
+    }, 150);
+  }
 }
 
 function toggleUnit(idx) {
