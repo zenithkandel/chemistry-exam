@@ -1,6 +1,243 @@
 {
   "questions": [
     {
+      "q": "Which of the following alkenes shows geometrical isomerism?",
+      "opts": ["Propene", "But-1-ene", "But-2-ene", "2-Methylpropene"],
+      "ans": 2,
+      "hint": "Geometrical isomerism requires each doubly bonded carbon to have two different groups. But-2-ene: CH₃-CH=CH-CH₃ → cis & trans."
+    },
+    {
+      "q": "The IUPAC name of the trans isomer of pent-2-ene is:",
+      "opts": [
+        "(E)-pent-2-ene",
+        "(Z)-pent-2-ene",
+        "cis-pent-2-ene",
+        "pent-2-ene"
+      ],
+      "ans": 0,
+      "hint": "In trans (E isomer), higher priority groups on opposite sides. (E)-pent-2-ene."
+    },
+    {
+      "q": "Which of the following has the highest electron affinity?",
+      "opts": ["Fluorine", "Chlorine", "Bromine", "Iodine"],
+      "ans": 1,
+      "hint": "Chlorine has highest electron affinity (though F has smaller size, Cl wins due to less electron repulsion)."
+    },
+    {
+      "q": "Ionization energy generally increases across a period because:",
+      "opts": [
+        "Atomic radius increases",
+        "Nuclear charge increases",
+        "Shielding increases",
+        "Electron affinity decreases"
+      ],
+      "ans": 1,
+      "hint": "Increasing nuclear charge pulls electrons tighter → more energy to remove an electron."
+    },
+    {
+      "q": "Acetic acid (CH₃COOH) is more acidic than ethanol because:",
+      "opts": [
+        "Inductive effect stabilizes conjugate base",
+        "Resonance effect destabilizes acid",
+        "Hydrogen bonding",
+        "Higher molecular mass"
+      ],
+      "ans": 0,
+      "hint": "-I effect of O and C=O stabilizes CH₃COO⁻ by delocalizing negative charge."
+    },
+    {
+      "q": "Which of the following shows resonance effect?",
+      "opts": ["CH₃-CH₃", "CH₂=CH-CH=CH₂", "CH₃-Cl", "C₂H₅-OH"],
+      "ans": 1,
+      "hint": "Conjugated diene (1,3-butadiene) has resonance due to alternating double bonds."
+    },
+    {
+      "q": "Octane number 75 means the fuel mixture behaves like:",
+      "opts": [
+        "75% iso-octane + 25% n-heptane",
+        "25% iso-octane + 75% n-heptane",
+        "75% n-heptane + 25% iso-octane",
+        "100% iso-octane"
+      ],
+      "ans": 0,
+      "hint": "Octane number = % iso-octane in mixture with n-heptane. 75 = 75% iso-octane, 25% n-heptane."
+    },
+    {
+      "q": "Which is NOT a characteristic of homologous series?",
+      "opts": [
+        "Same functional group",
+        "Gradual change in physical properties",
+        "Same chemical properties",
+        "Same molecular mass"
+      ],
+      "ans": 3,
+      "hint": "Homologous series members differ by CH₂, so molecular mass increases by 14u each step."
+    },
+    {
+      "q": "Bleaching action of SO₂ is due to:",
+      "opts": ["Oxidation", "Reduction", "Dehydration", "Hydrolysis"],
+      "ans": 1,
+      "hint": "SO₂ bleaches by reduction (removes oxygen from colored compounds). Cl₂ bleaches by oxidation."
+    },
+    {
+      "q": "In the contact process for H₂SO₄, the catalyst used is:",
+      "opts": ["Fe₂O₃", "V₂O₅", "Pt", "Ni"],
+      "ans": 1,
+      "hint": "Vanadium pentoxide (V₂O₅) at ~450°C. Modern process replaces Pt."
+    },
+    {
+      "q": "Nascent hydrogen is a stronger reducing agent than molecular H₂ because:",
+      "opts": [
+        "It is formed in situ with high energy",
+        "It has lower temperature",
+        "It is in gaseous state",
+        "It combines with oxygen"
+      ],
+      "ans": 0,
+      "hint": "Nascent hydrogen is atomic hydrogen released during a reaction – highly reactive due to unpaired electron."
+    },
+    {
+      "q": "Which reagent is used to distinguish between alkane and alkene?",
+      "opts": [
+        "Tollens' reagent",
+        "Bromine water (dark)",
+        "Fehling's solution",
+        "Neutral FeCl₃"
+      ],
+      "ans": 1,
+      "hint": "Alkene decolorizes bromine water (addition reaction); alkane does not react."
+    },
+    {
+      "q": "Acetylene shows acidic character because:",
+      "opts": [
+        "It has triple bond",
+        "It forms metal acetylides",
+        "It has terminal H attached to sp carbon",
+        "It is unsaturated"
+      ],
+      "ans": 2,
+      "hint": "sp hybridized carbon is more electronegative, so C-H bond is polar – H can be removed by strong bases."
+    },
+    {
+      "q": "Which reaction is used to increase the number of carbon atoms in an alkane?",
+      "opts": [
+        "Ozonolysis",
+        "Wurtz reaction",
+        "Markovnikov addition",
+        "Dehydrohalogenation"
+      ],
+      "ans": 1,
+      "hint": "Wurtz: 2R-X + 2Na → R-R + 2NaX (doubles carbon atoms)."
+    },
+    {
+      "q": "Which of the following is isoelectronic with Na⁺?",
+      "opts": ["Mg²⁺", "O²⁻", "F⁻", "All of these"],
+      "ans": 3,
+      "hint": "Na⁺ (10 e⁻), Mg²⁺ (10 e⁻), O²⁻ (10 e⁻), F⁻ (10 e⁻) – all isoelectronic. Size order: O²⁻ > F⁻ > Na⁺ > Mg²⁺."
+    },
+    {
+      "q": "Which of the following is a macro-nutrient for plants?",
+      "opts": ["Zn", "Cu", "Mg", "Fe"],
+      "ans": 2,
+      "hint": "Macro: N, P, K, Ca, Mg, S. Micro: Fe, Cu, Zn, Mn, B, Mo, Cl."
+    },
+
+    {
+      "q": "Which reaction is used to prepare alkanes from alkyl halides by doubling the number of carbon atoms?",
+      "opts": [
+        "Ozonolysis",
+        "Wurtz reaction",
+        "Markovnikov addition",
+        "Peroxide effect"
+      ],
+      "ans": 1,
+      "hint": "Wurtz reaction: 2R-X + 2Na → R-R + 2NaX. Doubles carbon chain."
+    },
+    {
+      "q": "Bayer's reagent (dilute KMnO₄) is used to test for:",
+      "opts": ["Aromaticity", "Unsaturation", "Halogens", "Nitrogen"],
+      "ans": 1,
+      "hint": "Bayer's reagent (alkaline KMnO₄) decolorizes in presence of double/triple bonds."
+    },
+    {
+      "q": "According to Markovnikov's rule, when HBr adds to propene, the major product is:",
+      "opts": [
+        "1-Bromopropane",
+        "2-Bromopropane",
+        "1,2-Dibromopropane",
+        "Propane"
+      ],
+      "ans": 1,
+      "hint": "H adds to carbon with more H atoms. CH₃-CH=CH₂ + HBr → CH₃-CHBr-CH₃ (2-bromopropane)."
+    },
+    {
+      "q": "Which of the following compounds is aromatic according to Huckel's rule?",
+      "opts": ["Cyclobutadiene", "Cyclooctatetraene", "Benzene", "Cyclohexane"],
+      "ans": 2,
+      "hint": "Huckel: (4n+2) π electrons, planar, cyclic. Benzene: 6 π e⁻ (n=1)."
+    },
+    {
+      "q": "The ring test for nitrate ion involves formation of:",
+      "opts": [
+        "Brown ring of Fe(NO₃)₃",
+        "Brown ring of [Fe(H₂O)₅NO]²⁺",
+        "Blue color of Cu²⁺",
+        "Yellow precipitate of AgNO₃"
+      ],
+      "ans": 1,
+      "hint": "Nitrate + FeSO₄ + conc. H₂SO₄ → brown ring of nitroso iron(II) sulfate."
+    },
+    {
+      "q": "Which law of stoichiometry is directly used to deduce Avogadro's hypothesis?",
+      "opts": [
+        "Law of conservation of mass",
+        "Law of constant proportions",
+        "Gay-Lussac's law of gaseous volumes",
+        "Law of multiple proportions"
+      ],
+      "ans": 2,
+      "hint": "Avogadro used Gay-Lussac's volume ratios to propose equal volumes → equal molecules."
+    },
+    {
+      "q": "The ideal gas equation PV = nRT, the value of R (universal gas constant) is:",
+      "opts": [
+        "0.0821 L·atm·mol⁻¹·K⁻¹",
+        "8.314 J·mol⁻¹·K⁻¹",
+        "Both A and B",
+        "1.987 cal·mol⁻¹·K⁻¹"
+      ],
+      "ans": 2,
+      "hint": "R = 0.0821 L·atm·mol⁻¹·K⁻¹ = 8.314 J·mol⁻¹·K⁻¹ = 1.987 cal·mol⁻¹·K⁻¹."
+    },
+    {
+      "q": "According to VSEPR theory, the shape of NH₃ molecule is:",
+      "opts": ["Tetrahedral", "Trigonal planar", "Trigonal pyramidal", "Bent"],
+      "ans": 2,
+      "hint": "NH₃: 3 bond pairs + 1 lone pair → trigonal pyramidal (like a tetrahedron missing one vertex)."
+    },
+    {
+      "q": "Le-Chatelier's principle predicts that increasing pressure on the reaction N₂(g) + 3H₂(g) ⇌ 2NH₃(g) will:",
+      "opts": [
+        "Shift equilibrium to left",
+        "Shift equilibrium to right",
+        "Have no effect",
+        "Decrease NH₃ yield"
+      ],
+      "ans": 1,
+      "hint": "Higher pressure favors fewer gas moles. Left: 4 moles, right: 2 moles → shifts right."
+    },
+    {
+      "q": "Which of the following solids shows anisotropy?",
+      "opts": [
+        "Glass",
+        "Rubber",
+        "Crystalline solid (e.g., NaCl)",
+        "Amorphous solid"
+      ],
+      "ans": 2,
+      "hint": "Anisotropy (different properties in different directions) is shown by crystalline solids, not amorphous."
+    },
+    {
       "q": "The number of sodium hydroxide molecules present in 40 gm of it is:",
       "opts": ["6.023×10²³", "12.044×10²⁰", "6.023×10²¹", "3.015×10²³"],
       "ans": 0,
