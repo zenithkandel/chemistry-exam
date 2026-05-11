@@ -482,7 +482,7 @@ function renderSyllabus() {
       </div>
       <div class="syllabus-chapters" id="unit-${uIdx}">`;
     
-    unit.chapters.forEach(chapter, chIdx) => {
+    unit.chapters.forEach((chapter, chIdx) => {
       const chapterKey = `unit${uIdx}-ch${chIdx}`;
       const isChapterComplete = completedTopics[chapterKey] === true;
       html += `<div class="syllabus-chapter ${isChapterComplete ? 'completed' : ''}">
