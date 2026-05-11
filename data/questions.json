@@ -303,9 +303,9 @@
     },
     {
       "q": "When Cl₂ reacts with hot & conc. NaOH, the product is:",
-      "opts": ["NaClO₃", "NaClO", "NaClO₃ & NaClO", "NaCl & NaClO"],
-      "ans": 3,
-      "hint": "Hot conc: 3Cl₂+6NaOH→5NaCl+NaClO₃+3H₂O. Cold dilute gives NaCl+NaClO."
+      "opts": ["NaCl & NaClO₃", "NaClO", "NaClO₃ & NaClO", "NaCl & NaClO"],
+      "ans": 0,
+      "hint": "Hot conc: 3Cl₂ + 6NaOH → 5NaCl + NaClO₃ + 3H₂O. Cold dilute gives NaCl + NaClO."
     },
     {
       "q": "Which of the following oxides is amphoteric?",

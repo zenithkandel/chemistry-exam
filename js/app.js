@@ -3,7 +3,7 @@ let totalXP = parseInt(localStorage.getItem("chemcrash_xp") || "0");
 let streak = 0, bestStreak = parseInt(localStorage.getItem("chemcrash_bestStreak") || "0");
 let correctCount = 0, totalAttempted = 0, currentQIndex = 0, quizActive = false;
 let timerInterval = null, timeLeft = 20;
-const questionsPerRound = 30;
+const questionsPerRound = Infinity;
 let roundQuestions = [];
 let isQuizPaused = false;
 let savedTimeLeft = 20;
@@ -36,7 +36,7 @@ function updateStats() {
   if (xp) xp.textContent = totalXP;
   if (str) str.textContent = streak;
   if (acc) acc.textContent = totalAttempted > 0 ? Math.round((correctCount / totalAttempted) * 100) + "%" : "0%";
-  if (prog) prog.textContent = totalAttempted + "/50";
+  if (prog) prog.textContent = totalAttempted + "/" + allQuestions.length;
   localStorage.setItem("chemcrash_xp", totalXP);
   localStorage.setItem("chemcrash_bestStreak", Math.max(bestStreak, streak));
 }
@@ -195,7 +195,7 @@ function renderDashboard() {
           <span class="stat-card-label">Progress</span>
           <div class="stat-card-icon purple"><i class="fa-light fa-chart-line-up"></i></div>
         </div>
-        <div class="stat-card-value" id="questionsDone">${totalAttempted}/50</div>
+        <div class="stat-card-value" id="questionsDone">${totalAttempted}/${allQuestions.length}</div>
         <div class="stat-card-sub">Questions completed</div>
       </div>
     </div>
@@ -241,7 +241,7 @@ function renderDashboard() {
         </div>
         <div class="card cta-card">
           <h4>Ready to Practice?</h4>
-          <p>Test your knowledge with our quiz mode. 30 questions, 20 seconds each.</p>
+          <p>Test your knowledge with our quiz mode. ${questionsPerRound} questions, 20 seconds each.</p>
           <button class="cta-btn" onclick="navigateTo('quiz')">Start Quiz</button>
         </div>
       </div>
