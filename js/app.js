@@ -665,13 +665,16 @@ function renderSettings() {
         <div class="settings-section">
           <h3><i class="fa-light fa-user"></i> Profile Stats</h3>
           <div class="settings-item">
-            <div><div class="settings-item-label">Total XP</div><div class="settings-item-desc">${totalXP} points earned</div></div>
+            <div class="settings-item-label">Total XP</div>
+            <div class="settings-item-desc">${totalXP} points earned</div>
           </div>
           <div class="settings-item">
-            <div><div class="settings-item-label">Best Streak</div><div class="settings-item-desc">${bestStreak} correct in a row</div></div>
+            <div class="settings-item-label">Best Streak</div>
+            <div class="settings-item-desc">${bestStreak} correct in a row</div>
           </div>
           <div class="settings-item">
-            <div><div class="settings-item-label">Questions Attempted</div><div class="settings-item-desc">${totalAttempted} questions completed</div></div>
+            <div class="settings-item-label">Questions Attempted</div>
+            <div class="settings-item-desc">${totalAttempted} questions completed</div>
           </div>
         </div>
         <div class="settings-section">
