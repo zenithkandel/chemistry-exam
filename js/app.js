@@ -489,7 +489,7 @@ function renderSyllabus() {
     unit.chapters.forEach((chapter, chIdx) => {
       const chapterKey = `unit${uIdx}-ch${chIdx}`;
       const isChapterComplete = completedTopics[chapterKey] === true;
-      html += `<div class="syllabus-chapter ${isChapterComplete ? 'completed' : ''}">
+      html += `<div class="syllabus-chapter ${isChapterComplete ? 'completed' : ''}" data-chapter-idx="${uIdx}-${chIdx}">
         <div class="syllabus-chapter-header">
           <button class="chapter-check-btn ${isChapterComplete ? 'checked' : ''}" onclick="toggleChapter('${chapterKey}', event)" title="Mark as complete">
             <i class="fa-regular ${isChapterComplete ? 'fa-check-circle' : 'fa-circle'}"></i>
@@ -756,6 +756,26 @@ function confirmResetSyllabus() { getEl("resetSyllabusModal")?.classList.add("sh
 function closeSyllabusModal() { getEl("resetSyllabusModal")?.classList.remove("show"); }
 function doResetSyllabus() { closeSyllabusModal(); resetSyllabus(); }
 
+function navigateToSyllabusEntry(unitIdx, chapterIdx) {
+  navigateTo("syllabus");
+  setTimeout(() => {
+    if (expandedUnits[unitIdx] !== true) {
+      expandedUnits[unitIdx] = true;
+      const unitEl = getEl("unit-" + unitIdx);
+      if (unitEl) unitEl.classList.add("show");
+      localStorage.setItem("chemcrash_expanded", JSON.stringify(expandedUnits));
+    }
+    setTimeout(() => {
+      const chapterEl = document.querySelector(`[data-chapter-idx="${unitIdx}-${chapterIdx}"]`);
+      if (chapterEl) {
+        chapterEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        chapterEl.classList.add("syllabus-highlight");
+        setTimeout(() => chapterEl.classList.remove("syllabus-highlight"), 2000);
+      }
+    }, 100);
+  }, 50);
+}
+
 function performSearch(query) {
   const results = [];
   if (!query || query.length < 2) return results;
@@ -764,7 +784,10 @@ function performSearch(query) {
   allQuestions.forEach((item, i) => { if (item.q.toLowerCase().includes(q) || item.opts.some(o => o.toLowerCase().includes(q))) results.push({ type: "Question", title: item.q.substring(0, 60) + (item.q.length > 60 ? "..." : ""), page: "quiz" }); });
   flashcardData.forEach(item => { if (item.front.toLowerCase().includes(q) || item.back.toLowerCase().includes(q)) results.push({ type: "Flashcard", title: item.front, page: "flashcards" }); });
   cheatSections.forEach(sec => { sec.items.forEach(item => { if (item.toLowerCase().includes(q)) results.push({ type: "Cheatsheet", title: item.replace(/<[^>]*>/g, '').substring(0, 60), page: "cheatsheet" }); }); });
-  if (syllabusData.syllabus) syllabusData.syllabus.forEach(unit => { unit.chapters.forEach(ch => { if (ch.chapter_name.toLowerCase().includes(q)) results.push({ type: "Chapter", title: ch.chapter_name, sub: unit.unit_name, page: "syllabus" }); }); });
+  if (syllabusData.syllabus) syllabusData.syllabus.forEach((unit, uIdx) => { unit.chapters.forEach((ch, chIdx) => { 
+    if (ch.chapter_name.toLowerCase().includes(q)) results.push({ type: "Syllabus", title: ch.chapter_name, sub: unit.unit_name, page: "syllabus", unitIdx: uIdx, chapterIdx: chIdx });
+    ch.topics.forEach((topic, topicIdx) => { if (topic.topic_name.toLowerCase().includes(q)) results.push({ type: "Syllabus", title: topic.topic_name, sub: ch.chapter_name + " - " + unit.unit_name, page: "syllabus", unitIdx: uIdx, chapterIdx: chIdx }); });
+  }); });
 
   return results.slice(0, 10);
 }
@@ -844,7 +867,7 @@ function init() {
       searchInput.addEventListener("input", (e) => {
         const results = performSearch(e.target.value);
         if (results.length > 0) {
-          searchResults.innerHTML = results.map(r => `<div class="search-result-item" onclick="navigateTo('${r.page}');searchResults.classList.remove('show');searchInput.value='';">
+          searchResults.innerHTML = results.map(r => `<div class="search-result-item" ${r.type === "Syllabus" && r.unitIdx !== undefined ? `onclick="navigateToSyllabusEntry(${r.unitIdx}, ${r.chapterIdx});searchResults.classList.remove('show');"` : `onclick="navigateTo('${r.page}');searchResults.classList.remove('show');searchInput.value='';"`}>
             <div class="result-section">${r.type}</div>
             <div class="result-title">${r.title}</div>
             ${r.sub ? `<div class="result-sub">${r.sub}</div>` : ''}

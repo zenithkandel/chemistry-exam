@@ -445,6 +445,14 @@ i.fa { font-size: 20px; line-height: 1; }
 .syllabus-chapters.show { display: block; }
 .syllabus-chapter { padding: 16px 20px; background: var(--surface); border-radius: var(--radius-sm); border: 1px solid var(--border-light); margin-bottom: 8px; transition: var(--transition); }
 .syllabus-chapter.completed { border-color: var(--success); background: var(--success-light); }
+.syllabus-chapter.syllabus-highlight {
+  animation: syllabusHighlight 2s ease forwards;
+  box-shadow: 0 0 0 3px var(--success);
+}
+@keyframes syllabusHighlight {
+  0% { background: #bbf7d0; box-shadow: 0 0 0 3px var(--success); }
+  100% { background: var(--surface); box-shadow: none; }
+}
 .syllabus-chapter-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
 .syllabus-chapter-name { font-size: 14px; font-weight: 600; color: var(--text); flex: 1; }
 .syllabus-chapter-weight { font-size: 12px; color: var(--text3); white-space: nowrap; }
