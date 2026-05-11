@@ -601,17 +601,11 @@ function updateSyllabusStats() {
   
   syllabusData.syllabus.forEach((unit, uIdx) => {
     unit.chapters.forEach((chapter, chIdx) => {
-      const chapterKey = `unit${uIdx}-ch${chIdx}`;
-      if (completedTopics[chapterKey]) {
-        completedCount++;
+      chapter.topics.forEach((topic, topicIdx) => {
+        const topicKey = `unit${uIdx}-ch${chIdx}-topic${topicIdx}`;
         totalTopics++;
-      } else {
-        chapter.topics.forEach((topic, topicIdx) => {
-          const topicKey = `unit${uIdx}-ch${chIdx}-topic${topicIdx}`;
-          totalTopics++;
-          if (completedTopics[topicKey]) completedCount++;
-        });
-      }
+        if (completedTopics[topicKey]) completedCount++;
+      });
     });
   });
   
@@ -753,16 +747,11 @@ function getSyllabusProgressText() {
   let totalTopics = 0, completedCount = 0;
   syllabusData.syllabus.forEach((unit, uIdx) => {
     unit.chapters.forEach((chapter, chIdx) => {
-      const chapterKey = `unit${uIdx}-ch${chIdx}`;
-      if (completedTopics[chapterKey]) {
-        completedCount++; totalTopics++;
-      } else {
-        chapter.topics.forEach((topic, topicIdx) => {
-          const topicKey = `unit${uIdx}-ch${chIdx}-topic${topicIdx}`;
-          totalTopics++;
-          if (completedTopics[topicKey]) completedCount++;
-        });
-      }
+      chapter.topics.forEach((topic, topicIdx) => {
+        const topicKey = `unit${uIdx}-ch${chIdx}-topic${topicIdx}`;
+        totalTopics++;
+        if (completedTopics[topicKey]) completedCount++;
+      });
     });
   });
   return `${completedCount}/${totalTopics} completed`;
